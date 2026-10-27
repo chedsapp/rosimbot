@@ -1,24 +1,30 @@
-import crypto from 'crypto';
 import jwt from "jsonwebtoken";
 
-interface StateToken {
+export interface StateToken {
     userid: string
 }
 
-function generateStateJWT(data: StateToken, secret: string): string {
+export function generateStateJWT(data: StateToken, secret: string): string {
     return jwt.sign(data, secret, {expiresIn: 300})
 }
 
-function verifyStateJWT(state: string, secret: string): StateToken {
+export function verifyStateJWT(state: string, secret: string): StateToken {
     return jwt.verify(state, secret) as StateToken;
 }
 
-function generateAuthorizationURL(userid: string, env: Env): string {
-    let state = generateStateJWT({userid: userid}, env.JWT_SECRET);
-    return `${env.ROBLOX_BASE_API_URI}/authorize?client_id=${env.ROBLOX_CLIENT_ID}&redirect_uri=${env.ROBLOX_REDIRECT_URI}&scope=openid profile&response_type=code&state=${state}`
+export function generateAuthorizationURL(userid: string, env: Env): string {
+        const url = new URL(`${env.ROBLOX_BASE_API_URI}/authorize`);
+    url.search = new URLSearchParams({
+        client_id: env.ROBLOX_CLIENT_ID,
+        redirect_uri: env.ROBLOX_REDIRECT_URI,
+        scope: "openid profile",
+        response_type: "code",
+        state: generateStateJWT({ userid }, env.JWT_SECRET),
+    }).toString();
+    return url.toString();
 }
 
-interface ObtainTokenResponse {
+export interface ObtainTokenResponse {
     access_token: string
     refresh_token: string
     token_type: string
@@ -26,7 +32,7 @@ interface ObtainTokenResponse {
     scope: string
 }
 
-async function exchangeCodeForToken(code: string, env: Env): Promise<ObtainTokenResponse> {
+export async function exchangeCodeForToken(code: string, env: Env): Promise<ObtainTokenResponse> {
     let response = await fetch(
         env.ROBLOX_BASE_API_URI + "/token",
         {
@@ -37,7 +43,7 @@ async function exchangeCodeForToken(code: string, env: Env): Promise<ObtainToken
     return await response.json() as ObtainTokenResponse
 }
 
-async function exchangeRefreshToken(refresh_token: string, env: Env): Promise<ObtainTokenResponse> {
+export async function exchangeRefreshToken(refresh_token: string, env: Env): Promise<ObtainTokenResponse> {
     let response = await fetch(
         env.ROBLOX_BASE_API_URI + "/token",
         {
@@ -48,17 +54,17 @@ async function exchangeRefreshToken(refresh_token: string, env: Env): Promise<Ob
     return await response.json() as ObtainTokenResponse
 }
 
-interface RobloxUserInfo {
+export interface RobloxUserInfo {
     sub: string
     name: string
     nickname: string
     preferred_username: string
     created_at: number
     profile: string
-    piucture: string | null
+    picture: string | null
 }
 
-async function getUserInfo(token: string, env: Env): Promise<RobloxUserInfo> {
+export async function getUserInfo(token: string, env: Env): Promise<RobloxUserInfo> {
     let response = await fetch(
         env.ROBLOX_BASE_API_URI + "/userinfo",
         {
