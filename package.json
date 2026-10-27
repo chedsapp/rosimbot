@@ -17,8 +17,10 @@
     "wrangler": "^4.154.0"
   },
   "dependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
     "discord-api-types": "^0.38.57",
-    "discord-interactions": "^4.4.0"
+    "discord-interactions": "^4.4.0",
+    "jsonwebtoken": "^9.0.3"
   },
   "allowScripts": {
     "discord-interactions@4.4.0": true,
