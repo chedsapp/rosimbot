@@ -1,18 +1,33 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Bind resources to your worker in `wrangler.jsonc`. After adding bindings, a type definition for the
- * `Env` object can be regenerated with `npm run cf-typegen`.
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { verifyKey, InteractionType, InteractionResponseType } from "discord-interactions";
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
-		return new Response("Hello World!");
+		if (request.method !== "POST") return new Response("Ok")
+
+		const signature = request.headers.get("X-Signature-Ed25519");
+		const timestamp = request.headers.get("X-Signature-Timestamp");
+		const body = await request.text();
+
+		const valid = signature && timestamp &&
+			(await verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY));
+		if (!valid) return new Response('Bad request signature', { status: 401 });
+
+		const interaction = JSON.parse(body);
+
+		if (interaction.type === InteractionType.PING) { // bing bong bing bing bong
+			return Response.json({ type: InteractionResponseType.PONG });
+		}
+
+		if (interaction.type === InteractionType.APPLICATION_COMMAND) {
+			switch (interaction.data.name) {
+				case 'ping':
+					return Response.json({
+						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+						data: { content: 'pong' },
+					});
+			}
+		}
+
+		return new Response('Unknown interaction', { status: 400 });
 	},
 } satisfies ExportedHandler<Env>;
