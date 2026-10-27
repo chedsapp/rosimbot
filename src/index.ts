@@ -10,7 +10,7 @@ export default {
 
 		const valid = signature && timestamp &&
 			(await verifyKey(body, signature, timestamp, env.DISCORD_PUBLIC_KEY));
-		if (!valid) return new Response('Bad request signature', { status: 401 });
+		if (!valid) return new Response('Bad request signature', { headers: { "Content-Type": "application/json" }, status: 401 });
 
 		const interaction = JSON.parse(body);
 
