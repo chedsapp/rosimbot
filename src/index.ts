@@ -14,7 +14,7 @@ import { ERRORS, OAuthError } from "./oauth/constants";
 import layoutView from "../views/layout.liquid";
 import errorView from "../views/error.liquid";
 import successView from "../views/success.liquid";
-import { APIBaseInteraction, ComponentType } from "discord-api-types/v9";
+import { APIBaseInteraction, ButtonStyle, ComponentType } from "discord-api-types/v9";
 import { isApplicationCommandGuildInteraction } from "discord-api-types/utils";
 
 // Workers have no filesystem, so templates are bundled as text and served from memory
@@ -141,7 +141,7 @@ export default {
 										accessory: {type: ComponentType.Thumbnail, media: {url: `https://cdn.discordapp.com/icons/${interaction.guild_id}/${interaction.guild.icon}.webp`}}
 									},
 								]},
-								{ type: ComponentType.ActionRow, components: [{ type: 2, style: 5, label: "Verify", url: await generateAuthorizationURL(discordId, env) }] },
+								{ type: ComponentType.ActionRow, components: [{ type: ComponentType.Button, style: ButtonStyle.Link, label: "Verify", url: await generateAuthorizationURL(discordId, env) }] },
 							],
 						},
 					});
