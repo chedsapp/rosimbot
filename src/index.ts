@@ -18,16 +18,16 @@ export default {
 			let code: string | null = url.searchParams.get("code");
 			let state: string | null = url.searchParams.get("state");
 			if (code == null || state == null) {
-				return new Response("invalid request", {status: 400})
+				return new Response("invalid request", { status: 400 })
 			}
 			let state_token: StateToken;
 			try {
 				state_token = await verifyStateJWT(state, env.JWT_SECRET);
 			} catch (err) {
 				if (err instanceof JWTExpired) {
-					return new Response("Login expired, try again", {status: 400})
+					return new Response("Login expired, try again", { status: 400 })
 				} else {
-					return new Response("invalid state", {status: 400})
+					return new Response("invalid state", { status: 400 })
 				}
 			}
 
@@ -59,6 +59,11 @@ export default {
 						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 						data: { content: 'pong' },
 					});
+				case 'verify':
+					return Response.json({
+						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+						data: { content: 'do thing' }
+					})
 			}
 		}
 
