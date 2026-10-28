@@ -38,7 +38,19 @@
 	 * Note: Use secrets to store sensitive data.
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
 	 */
-	// "vars": {  "MY_VARIABLE": "production_value" }
+	"vars": { "ROBLOX_BASE_API_URI": "https://apis.roblox.com/oauth/v1" },
+	"secrets": {
+		"required": [
+			"JWT_SECRET",
+			"DISCORD_APPLICATION_ID",
+			"DISCORD_PUBLIC_KEY",
+			"DISCORD_TOKEN",
+			"DISCORD_GUILD_ID",
+			"ROBLOX_CLIENT_ID",
+			"ROBLOX_CLIENT_SECRET",
+			"ROBLOX_REDIRECT_URI",
+		],
+	},
 	/**
 	 * Static Assets
 	 * https://developers.cloudflare.com/workers/static-assets/binding/
