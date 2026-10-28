@@ -22,6 +22,7 @@
 		"wrangler": "^4.154.0"
 	},
 	"dependencies": {
+		"@shopify/prettier-plugin-liquid": "^1.11.3",
 		"@types/jsonwebtoken": "^9.0.10",
 		"discord-api-types": "^0.38.57",
 		"discord-interactions": "^4.4.0",
