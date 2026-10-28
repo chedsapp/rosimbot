@@ -18,10 +18,7 @@ export async function linkAccount(db: D1Database, discordId: string, robloxId: s
 }
 
 export async function getRobloxFromDiscord(db: D1Database, discordId: string): Promise<string | undefined> {
-	const find = await db
-		.prepare("SELECT roblox_id FROM links WHERE discord_id = ?1")
-		.bind(discordId)
-		.first<{ roblox_id: string }>();
+	const find = await db.prepare("SELECT roblox_id FROM links WHERE discord_id = ?1").bind(discordId).first<{ roblox_id: string }>();
 
 	return find?.roblox_id;
 }
