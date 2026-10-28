@@ -1,6 +1,11 @@
 {% layout 'layout' %}
 {% block content %}
-  <div class="icon">✓</div>
-  <h1>You're verified</h1>
-  <p>{% if user %}Signed in as <strong>{{ user }}</strong>. {% endif %}You can close this tab.</p>
+	<div class="icon">✓</div>
+	<h1>You're verified</h1>
+	<p>
+		{% if user -%}
+			Signed in as <strong>{{ user }}</strong>.
+		{% endif -%}
+		You can close this tab.
+	</p>
 {% endblock %}
