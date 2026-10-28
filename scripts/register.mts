@@ -2,6 +2,7 @@ const { DISCORD_APPLICATION_ID, DISCORD_TOKEN } = process.env;
 
 const commands = [
 	{ name: "ping", type: 1, description: "Hello bro" },
+	{ name: "verify", type: 1, description: "Verify your Roblox account" },
 ]
 
 const res = await fetch(
