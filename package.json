@@ -1,50 +1,51 @@
 {
-  "name": "rosimbot",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
-    "start": "wrangler dev",
-    "test": "vitest",
-    "cf-typegen": "wrangler types",
-    "register-commands": "tsx --env-file=.dev.vars scripts/register.mts"
-  },
-  "devDependencies": {
-    "@cloudflare/vitest-plugin": "^1.4.3",
-    "@types/node": "^26.6.5",
-    "tsx": "^4.23.15",
-    "typescript": "^5.9.3",
-    "vitest": "~5.0.3",
-    "wrangler": "^4.154.0"
-  },
-  "dependencies": {
-    "@types/jsonwebtoken": "^9.0.10",
-    "discord-api-types": "^0.38.57",
-    "discord-interactions": "^4.4.0",
-    "jose": "^6.2.13"
-  },
-  "allowScripts": {
-    "discord-interactions@4.4.0": true,
-    "discord-api-types@0.38.57": true,
-    "esbuild@0.28.2": true,
-    "workerd@1.20261023.1": true
-  },
-  "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/chedsapp/rosimbot.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/chedsapp/rosimbot/issues"
-  },
-  "homepage": "https://github.com/chedsapp/rosimbot#readme",
-  "description": ""
+	"name": "rosimbot",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"start": "wrangler dev",
+		"test": "vitest",
+		"cf-typegen": "wrangler types",
+		"register-commands": "tsx --env-file=.dev.vars scripts/register.mts",
+		"format": "npx prettier --write ."
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-plugin": "^1.4.3",
+		"@types/node": "^26.6.5",
+		"tsx": "^4.23.15",
+		"typescript": "^5.9.3",
+		"vitest": "~5.0.3",
+		"wrangler": "^4.154.0"
+	},
+	"dependencies": {
+		"@types/jsonwebtoken": "^9.0.10",
+		"discord-api-types": "^0.38.57",
+		"discord-interactions": "^4.4.0",
+		"jose": "^6.2.13"
+	},
+	"allowScripts": {
+		"discord-interactions@4.4.0": true,
+		"discord-api-types@0.38.57": true,
+		"esbuild@0.28.2": true,
+		"workerd@1.20261023.1": true
+	},
+	"main": "index.js",
+	"directories": {
+		"test": "test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/chedsapp/rosimbot.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"bugs": {
+		"url": "https://github.com/chedsapp/rosimbot/issues"
+	},
+	"homepage": "https://github.com/chedsapp/rosimbot#readme",
+	"description": ""
 }
