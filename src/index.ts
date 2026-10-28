@@ -128,7 +128,7 @@ export default {
 					});
 				case "verify":
 					// idk which one to use
-					const discordId = interaction.member?.user.id ?? interaction.user.id;
+					const discordId = interaction.user_id;
 					return Response.json({
 						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 						data: {
@@ -137,11 +137,11 @@ export default {
 								{ type: ComponentType.Container, components: [
 									{ 
 										type: ComponentType.Section, 
-										components: [{ type: ComponentType.TextDisplay, text: "Click the button below to verify your Roblox account.\nDo not share this link." }],
-										accessory: {type: ComponentType.Thumbnail, media: {url: `https://cdn.discordapp.com/icons/${interaction.guild_id}/${interaction.guild.icon}.webp`}}
+										components: [{ type: ComponentType.TextDisplay, content: "# Verify to access RoSim\nClick the button below to verify your Roblox account.\nDo not share this link." }],
+										accessory: {type: ComponentType.Thumbnail, media: {url: `https://cdn.discordapp.com/icons/1393308664151932938/7ab93dfc9958cbe2bd620d0f46280a33.webp`}}
 									},
 								]},
-								{ type: ComponentType.ActionRow, components: [{ type: ComponentType.Button, style: ButtonStyle.Link, label: "Verify", url: await generateAuthorizationURL(discordId, env) }] },
+								{ type: ComponentType.ActionRow, components: [{ type: ComponentType.Button, style: ButtonStyle.Link, label: "Verify", url: await generateAuthorizationURL(discordId, env) }] }
 							],
 						},
 					});
