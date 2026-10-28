@@ -36,7 +36,6 @@ export async function handleRobloxCallback(request: Request, env: Env, ctx: Exec
 		}
 
 		const idToken = await verifyRobloxJWT(token.id_token, env);
-        console.log(state_token, idToken)
 		const previous = await linkAccount(env.rosimbot, state_token.userid, idToken.sub);
 
 		return page("success", { title: "verified", kind: "ok", user: idToken.preferred_username });

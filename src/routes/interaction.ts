@@ -26,7 +26,6 @@ export default async function handleInteraction(request: Request, env: Env, ctx:
 				});
 			case "verify":
 				// idk which one to use
-                console.log(interaction)
 				const discordId = interaction.member?.user.id ?? interaction.user.id;
 				return Response.json({
 					type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
