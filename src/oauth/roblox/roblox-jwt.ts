@@ -23,6 +23,7 @@ export async function verifyRobloxJWT(token: string, env: Env): Promise<RobloxId
 	const { payload } = await jwtVerify<RobloxIdToken>(token, getRobloxJWKs(env), {
 		issuer: "https://apis.roblox.com/oauth/",
 		audience: env.ROBLOX_CLIENT_ID,
+		clockTolerance: 5,
 	});
 	return payload;
 }

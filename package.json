@@ -26,6 +26,7 @@
 		"@types/jsonwebtoken": "^9.0.10",
 		"discord-api-types": "^0.38.57",
 		"discord-interactions": "^4.4.0",
+		"itty-router": "^5.0.24",
 		"jose": "^6.2.13",
 		"liquidjs": "^10.30.1"
 	},
