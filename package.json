@@ -3,13 +3,15 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy",
-		"dev": "wrangler dev",
-		"start": "wrangler dev",
-		"test": "vitest",
-		"cf-typegen": "wrangler types",
+		"deploy": "npx wrangler deploy",
+		"dev": "npx wrangler dev",
+		"start": "npx wrangler dev",
+		"test": "npx vitest",
+		"types": "npx wrangler types",
 		"register-commands": "tsx --env-file=.dev.vars scripts/register.mts",
-		"format": "npx prettier --write ."
+		"format": "npx prettier --write .",
+		"apply-migrations-local": "npx wrangler d1 migrations apply rosimbot --local",
+		"apply-migrations-remote": "npx wrangler d1 migrations apply rosimbot --local"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-plugin": "^1.4.3",
