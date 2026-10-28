@@ -10,7 +10,7 @@ router
 	.get("/roblox/callback", handleRobloxCallback);
 
 export default {
-	async fetch(request, env, ctx): Promise<esponse> {
+	async fetch(request, env, ctx): Promise<Response> {
 		return await router.fetch(request, env, ctx);
 	},
 } satisfies ExportedHandler<Env>;
