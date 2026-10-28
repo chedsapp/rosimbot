@@ -1,6 +1,7 @@
 import { verifyKey, InteractionType, InteractionResponseType } from "discord-interactions";
 import { exchangeCodeForToken, generateAuthorizationURL, ObtainTokenResponse, StateToken, verifyRobloxJWT, verifyStateJWT } from "./oauth/roblox/index";
 import { JWTExpired } from "jose/errors";
+import { linkAccount } from "./db/linking";
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
@@ -33,7 +34,10 @@ export default {
 
 			let token: ObtainTokenResponse = await exchangeCodeForToken(code, env);
 
-			return new Response(JSON.stringify(await verifyRobloxJWT(token.id_token, env)));
+			const idToken = await verifyRobloxJWT(token.id_token, env);
+			const previous = await linkAccount(env.rosimbot, state_token.userid, idToken.sub)
+
+			return new Response(`Linked to ${idToken.preferred_username}! You can close this fucking tab.`);
 		}
 
 		if (request.method !== "POST") return new Response("Ok")
@@ -60,10 +64,16 @@ export default {
 						data: { content: 'pong' },
 					});
 				case 'verify':
+					// idk which one to use
+					const discordId = interaction.member?.user.id ?? interaction.user.id;
 					return Response.json({
 						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-						data: { content: 'do thing' }
-					})
+						data: {
+							flags: 64, // ephemeral
+							content: 'Click below to link your fucking Roblox account',
+							components: [{ type: 1, components: [{ type: 2, style: 5, label: 'Verify', url: await generateAuthorizationURL(discordId, env) }] }],
+						},
+					});
 			}
 		}
 
