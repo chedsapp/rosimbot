@@ -1,6 +1,6 @@
 {% layout 'layout' %}
 {% block content %}
-	<div class="icon">!</div>
+	<img class="icon" src="/img/frowny.webp" alt="" width="128" height="128">
 	<h1>{{ heading }}</h1>
 	<p>{{ message }}</p>
 	{% if code %}
@@ -8,7 +8,4 @@
 			<code>{{ code }}</code>
 		</p>
 	{% endif %}
-	{% if retry_url -%}
-		<a class="btn" href="{{ retry_url }}">Try again</a>
-	{%- endif %}
 {% endblock %}

@@ -11,6 +11,8 @@
 		"enabled": true,
 	},
 	"upload_source_maps": true,
+	// serves views/img at /img; .assetsignore keeps the .liquid templates private
+	"assets": { "directory": "./views" },
 	"rules": [{ "type": "Text", "globs": ["**/*.liquid"], "fallthrough": true }],
 	"d1_databases": [
 		{
