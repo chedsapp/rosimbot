@@ -18,6 +18,6 @@ describe("GET /", () => {
 		const response = await worker.fetch(request, env, ctx);
 		// Wait for all `Promise`s passed to `ctx.waitUntil()` to settle before running test assertions
 		await waitOnExecutionContext(ctx);
-		expect(await response.text()).toMatchInlineSnapshot('Ok');
+		expect(await response.text()).toMatchInlineSnapshot('"Ok"');
 	});
 });
