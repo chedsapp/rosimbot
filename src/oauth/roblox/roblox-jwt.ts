@@ -1,4 +1,4 @@
-import { SignJWT, jwtVerify, createRemoteJWKSet, type JWTPayload } from 'jose';
+import { SignJWT, jwtVerify, createRemoteJWKSet, type JWTPayload } from "jose";
 
 export interface RobloxIdToken extends JWTPayload {
 	sub: string;
@@ -21,7 +21,7 @@ function getRobloxJWKs(env: Env) {
 
 export async function verifyRobloxJWT(token: string, env: Env): Promise<RobloxIdToken> {
 	const { payload } = await jwtVerify<RobloxIdToken>(token, getRobloxJWKs(env), {
-		issuer: 'https://apis.roblox.com/oauth/',
+		issuer: "https://apis.roblox.com/oauth/",
 		audience: env.ROBLOX_CLIENT_ID,
 	});
 	return payload;
