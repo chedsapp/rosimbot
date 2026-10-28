@@ -41,7 +41,7 @@
 	"vars": { "ROBLOX_BASE_API_URI": "https://apis.roblox.com/oauth/v1" },
 	"secrets": {
 		"required": [
-			"JW_SECRET",
+			"JWT_SECRET",
 			"DISCORD_APPLICATION_ID",
 			"DISCORD_PUBLIC_KEY",
 			"DISCORD_TOKEN",
