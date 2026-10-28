@@ -1,4 +1,4 @@
-import { verifyKey, InteractionType, InteractionResponseType } from "discord-interactions";
+import { verifyKey, InteractionType, InteractionResponseType, InteractionResponseFlags } from "discord-interactions";
 import {
 	exchangeCodeForToken,
 	generateAuthorizationURL,
@@ -14,6 +14,8 @@ import { ERRORS, OAuthError } from "./oauth/constants";
 import layoutView from "../views/layout.liquid";
 import errorView from "../views/error.liquid";
 import successView from "../views/success.liquid";
+import { APIBaseInteraction, ComponentType } from "discord-api-types/v9";
+import { isApplicationCommandGuildInteraction } from "discord-api-types/utils";
 
 // Workers have no filesystem, so templates are bundled as text and served from memory
 export const engine = new Liquid({
@@ -130,10 +132,16 @@ export default {
 					return Response.json({
 						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
 						data: {
-							flags: 64, // ephemeral
-							content: "Click below to link your fucking Roblox account",
+							flags: InteractionResponseFlags.EPHEMERAL | InteractionResponseFlags.IS_COMPONENTS_V2,
 							components: [
-								{ type: 1, components: [{ type: 2, style: 5, label: "Verify", url: await generateAuthorizationURL(discordId, env) }] },
+								{ type: ComponentType.Container, components: [
+									{ 
+										type: ComponentType.Section, 
+										components: [{ type: ComponentType.TextDisplay, text: "Click the button below to verify your Roblox account.\nDo not share this link." }],
+										accessory: {type: ComponentType.Thumbnail, media: {url: `https://cdn.discordapp.com/icons/${interaction.guild_id}/${interaction.guild.icon}.webp`}}
+									},
+								]},
+								{ type: ComponentType.ActionRow, components: [{ type: 2, style: 5, label: "Verify", url: await generateAuthorizationURL(discordId, env) }] },
 							],
 						},
 					});
