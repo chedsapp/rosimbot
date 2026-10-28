@@ -3,6 +3,19 @@ const { DISCORD_APPLICATION_ID, DISCORD_TOKEN } = process.env;
 const commands = [
 	{ name: "ping", type: 1, description: "Hello bro" },
 	{ name: "verify", type: 1, description: "Verify your Roblox account" },
+	{
+		name: "whois",
+		type: 1,
+		description: "Get roblox user associated with discord user",
+		options: [
+			{
+				"name": "user",
+				"description": "The user to check",
+				"type": 6,
+				"required": true
+			}
+		]
+	}
 ];
 
 const res = await fetch(`https://discord.com/api/v10/applications/${DISCORD_APPLICATION_ID}/commands`, {

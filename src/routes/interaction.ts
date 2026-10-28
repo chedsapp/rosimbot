@@ -1,6 +1,7 @@
 import { ComponentType, ButtonStyle } from "discord-api-types/v10";
 import { verifyKey, InteractionType, InteractionResponseType, InteractionResponseFlags } from "discord-interactions";
 import { generateAuthorizationURL } from "../oauth/roblox";
+import { getRobloxFromDiscord } from "../db/linking";
 
 export default async function handleInteraction(request: Request, env: Env, ctx: ExecutionContext) {
 	const signature = request.headers.get("X-Signature-Ed25519");
@@ -19,6 +20,23 @@ export default async function handleInteraction(request: Request, env: Env, ctx:
 
 	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
 		switch (interaction.data.name) {
+			case "whois":
+
+				const searchDiscordId = interaction.data.options[0].value;
+				const foundRobloxId = await getRobloxFromDiscord(env.rosimbot, searchDiscordId);
+
+				if (foundRobloxId == null) {
+					return Response.json({
+						type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+						data: { content: `brother. im sorry brother. i couldn't find ${searchDiscordId} in my database brother. maybe they didn't sign up.` }
+					})
+				}
+
+				return Response.json({
+					type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+					data: { content: `yo bro. thank you brother. you sent me a discord id of ${searchDiscordId}. i think their roblox id is ${foundRobloxId}` }
+				})
+
 			case "ping":
 				return Response.json({
 					type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
