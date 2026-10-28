@@ -1,18 +1,18 @@
 import { verifyKey, InteractionType, InteractionResponseType } from "discord-interactions";
-import { exchangeCodeForToken, generateAuthorizationURL, ObtainTokenResponse, StateToken, verifyStateJWT } from "./oauth/roblox";
-import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import { exchangeCodeForToken, generateAuthorizationURL, ObtainTokenResponse, StateToken, verifyRobloxJWT, verifyStateJWT } from "./oauth/roblox/index";
+import { JWTExpired } from "jose/errors";
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
 		const url = new URL(request.url);
 
-		if (url.pathname == "/test-auth") {
-			let user_id: string | null = url.searchParams.get("user");
-			if (user_id == null) {
-				return new Response(null, {status: 400})
-			}
-			return Response.redirect(generateAuthorizationURL(user_id, env))
-		}
+		// if (url.pathname == "/test-auth") {
+		// 	let user_id: string | null = url.searchParams.get("user");
+		// 	if (user_id == null) {
+		// 		return new Response(null, {status: 400})
+		// 	}
+		// 	return Response.redirect(await generateAuthorizationURL(user_id, env))
+		// }
 
 		if (url.pathname == "/roblox/callback") {
 			let code: string | null = url.searchParams.get("code");
@@ -22,9 +22,9 @@ export default {
 			}
 			let state_token: StateToken;
 			try {
-				state_token = verifyStateJWT(state, env.JWT_SECRET);
+				state_token = await verifyStateJWT(state, env.JWT_SECRET);
 			} catch (err) {
-				if (err instanceof TokenExpiredError) {
+				if (err instanceof JWTExpired) {
 					return new Response("Login expired, try again", {status: 400})
 				} else {
 					return new Response("invalid state", {status: 400})
@@ -33,9 +33,7 @@ export default {
 
 			let token: ObtainTokenResponse = await exchangeCodeForToken(code, env);
 
-			console.log(token)
-
-			return new Response(null);
+			return new Response(JSON.stringify(await verifyRobloxJWT(token.id_token, env)));
 		}
 
 		if (request.method !== "POST") return new Response("Ok")
