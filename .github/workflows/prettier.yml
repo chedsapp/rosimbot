@@ -1,11 +1,11 @@
-name: Prettier
+name: Format
 
 on: [ push, workflow_dispatch ]
 
 permissions: write-all
 
 jobs:
-  ruff:
+  prettier:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +16,7 @@ jobs:
         run: npm i
 
       - name: Run Prettier
-        run: npm run prettier -w .
+        run: npm run format
 
       - name: Commit Changes
         uses: EndBug/add-and-commit@v11
