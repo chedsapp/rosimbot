@@ -1,0 +1,22 @@
+name: check
+
+on: [push, workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  tsc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Packages
+        run: npm ci
+
+      - name: Typecheck
+        run: |
+          echo "::add-matcher::.github/tsc-matcher.json"
+          npm run typecheck -- --pretty false
