@@ -11,6 +11,7 @@
 		"enabled": true,
 	},
 	"upload_source_maps": true,
+	"rules": [{ "type": "Text", "globs": ["**/*.liquid"], "fallthrough": true }],
 	"d1_databases": [
 		{
 			"binding": "rosimbot",

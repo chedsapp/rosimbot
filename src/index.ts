@@ -9,6 +9,30 @@ import {
 } from "./oauth/roblox/index";
 import { JWTExpired } from "jose/errors";
 import { linkAccount } from "./db/linking";
+import { Liquid } from "liquidjs";
+import { ERRORS, OAuthError } from "./oauth/constants";
+import layoutView from "../views/layout.liquid";
+import errorView from "../views/error.liquid";
+import successView from "../views/success.liquid";
+
+// Workers have no filesystem, so templates are bundled as text and served from memory
+export const engine = new Liquid({
+	templates: {
+		layout: layoutView,
+		error: errorView,
+		success: successView,
+	},
+	cache: true,
+	outputEscape: 'escape',
+})
+
+export async function page(name: string, ctx: Record<string, unknown>, status = 200) {
+	const html = await engine.renderFile(name, ctx)
+	return new Response(html, {
+		status,
+		headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' },
+	})
+}
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
@@ -25,26 +49,47 @@ export default {
 		if (url.pathname == "/roblox/callback") {
 			let code: string | null = url.searchParams.get("code");
 			let state: string | null = url.searchParams.get("state");
-			if (code == null || state == null) {
-				return new Response("invalid request", { status: 400 });
-			}
-			let state_token: StateToken;
+
 			try {
-				state_token = await verifyStateJWT(state, env.JWT_SECRET);
-			} catch (err) {
-				if (err instanceof JWTExpired) {
-					return new Response("Login expired, try again", { status: 400 });
-				} else {
-					return new Response("invalid state", { status: 400 });
+				const providerError = url.searchParams.get("error");
+				if (providerError) throw new OAuthError(providerError);
+
+				if (code == null) {
+					throw new OAuthError('missing_code', 400);
 				}
+				if (state == null) {
+					throw new OAuthError('state_mismatch', 403);
+				}
+
+				let state_token: StateToken;
+				try {
+					state_token = await verifyStateJWT(state, env.JWT_SECRET);
+				} catch (err) {
+					throw new OAuthError('state_mismatch', 403);
+				}
+
+				let token: ObtainTokenResponse;
+				try {
+					token = await exchangeCodeForToken(code, env);
+				} catch (err) {
+					console.error('token exchange failed', err);
+					throw new OAuthError('token_exchange_failed', 502);
+				}
+
+				const idToken = await verifyRobloxJWT(token.id_token, env);
+				//const previous = await linkAccount(env.rosimbot, state_token.userid, idToken.sub);
+
+				return page('success', { title: 'verified', kind: 'ok', user: idToken.preferred_username });
+			} catch (e) {
+				const known = e instanceof OAuthError
+				if (!known) console.error('oauth callback failed', e)
+
+				const code = known && ERRORS[e.code] ? e.code : 'internal_error'
+				const [heading, message] = ERRORS[code]
+				return page('error', {
+					title: heading, kind: 'err', heading, message, code, retry_url: '/login',
+				}, known ? e.status : 500)
 			}
-
-			let token: ObtainTokenResponse = await exchangeCodeForToken(code, env);
-
-			const idToken = await verifyRobloxJWT(token.id_token, env);
-			const previous = await linkAccount(env.rosimbot, state_token.userid, idToken.sub);
-
-			return new Response(`Linked to ${idToken.preferred_username}! You can close this fucking tab.`);
 		}
 
 		if (request.method !== "POST") return new Response("Ok");

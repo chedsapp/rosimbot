@@ -1,0 +1,8 @@
+{% layout 'layout' %}
+{% block content %}
+  <div class="icon">!</div>
+  <h1>{{ heading }}</h1>
+  <p>{{ message }}</p>
+  {% if code %}<p><code>{{ code }}</code></p>{% endif %}
+  {% if retry_url %}<a class="btn" href="{{ retry_url }}">Try again</a>{% endif %}
+{% endblock %}
