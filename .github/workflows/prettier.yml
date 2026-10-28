@@ -1,0 +1,25 @@
+name: Prettier
+
+on: [ push, workflow_dispatch ]
+
+permissions: write-all
+
+jobs:
+  ruff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Packages
+        run: npm i
+
+      - name: Run Prettier
+        run: npm run prettier -w .
+
+      - name: Commit Changes
+        uses: EndBug/add-and-commit@v11
+        with:
+          message: 'style: format with ruff'
+          default_author: github_actions
