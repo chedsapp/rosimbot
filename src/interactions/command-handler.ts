@@ -47,13 +47,6 @@ export class CommandHandler {
 			data: { ...genericErrorCV2(content), flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2 },
 		};
 	}
-
-	private async verify(publicKey: string, body: string, sig: string | null, ts: string | null) {
-		if (!sig || !ts) return false;
-		const hex = (h: string) => Uint8Array.from(h.match(/../g) ?? [], (b) => parseInt(b, 16));
-		const key = await crypto.subtle.importKey("raw", hex(publicKey), { name: "Ed25519" }, false, ["verify"]);
-		return crypto.subtle.verify("Ed25519", key, hex(sig), new TextEncoder().encode(ts + body));
-	}
 }
 
 const COMMAND_HANDLER = new CommandHandler(commands);

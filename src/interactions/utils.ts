@@ -2,12 +2,15 @@ import { ContainerBuilder, TextDisplayBuilder } from "@discordjs/builders";
 import { DiscordAPIError } from "@discordjs/rest";
 import {
 	type APIInteraction,
+	APIMessageComponentInteraction,
+	ComponentType,
 	type RESTPatchAPIWebhookWithTokenMessageJSONBody,
 	RESTPatchAPIWebhookWithTokenMessageResult,
 	RESTPostAPIChannelMessageJSONBody,
 	Routes,
 } from "discord-api-types/v10";
 import { DISCORD_REST } from "../api/discord";
+import { ComponentParseError, RoleSelectInteraction } from "./types";
 
 export async function editOriginal(
 	interaction: APIInteraction,
@@ -35,4 +38,21 @@ export function genericErrorCV2(message: string): RESTPostAPIChannelMessageJSONB
 			new ContainerBuilder().addTextDisplayComponents(new TextDisplayBuilder().setContent(message)).setAccentColor(0xe74c3c).toJSON(),
 		],
 	};
+}
+
+export function genericSuccessCV2(message: string): RESTPostAPIChannelMessageJSONBody {
+	return {
+		components: [
+			new ContainerBuilder().addTextDisplayComponents(new TextDisplayBuilder().setContent(message)).setAccentColor(0x2ECC71).toJSON(),
+		],
+	};
+}
+
+
+export function assertRoleSelect(
+  interaction: APIMessageComponentInteraction,
+): asserts interaction is RoleSelectInteraction {
+  if (interaction.data.component_type !== ComponentType.RoleSelect) {
+    throw new ComponentParseError("Expected a role select");
+  }
 }

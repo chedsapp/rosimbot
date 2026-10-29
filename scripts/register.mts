@@ -1,5 +1,5 @@
 import { REST, RESTOptions } from "@discordjs/rest";
-import { commands } from "../src/interactions";
+import { commands } from "../src/interactions/command-handler";
 import { RESTPutAPIApplicationCommandsResult, Routes } from "discord-api-types/v10";
 
 const { DISCORD_APPLICATION_ID, DISCORD_TOKEN } = process.env;

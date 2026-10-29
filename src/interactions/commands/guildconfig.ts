@@ -23,7 +23,7 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 		data: {
 			content: `**Guild config**\nVerified role: ${verifiedRole}`,
 			allowed_mentions: { parse: [] },
-			flags: MessageFlags.Ephemeral,
+			flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
 		},
 	};
 };
