@@ -6,7 +6,7 @@ import {
 	TextDisplayBuilder,
 	ThumbnailBuilder,
 } from "@discordjs/builders";
-import { ApplicationCommandOptionType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
+import { AllowedMentionsTypes, ApplicationCommandOptionType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 import { getRobloxFromDiscord } from "../../db/linking";
 import { editOriginal } from "../utils";
@@ -52,7 +52,9 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 								)
 								.toJSON(),
 						],
+						allowed_mentions: {},
 					});
+					return;
 				}
 				await editOriginal(interaction, {
 					flags: MessageFlags.IsComponentsV2,
@@ -61,6 +63,7 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 							.addTextDisplayComponents(new TextDisplayBuilder().setContent(`<@${searchDiscordId}> is linked to FUCKING nobody! FUCK YOU!`))
 							.toJSON(),
 					],
+					allowed_mentions: {},
 				});
 			} catch (err) {
 				console.error(err);
