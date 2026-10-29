@@ -13,8 +13,10 @@ const discordRest = new REST({
 	handlerSweepInterval: 0,
 });
 
-discordRest.setToken(DISCORD_TOKEN)
+discordRest.setToken(DISCORD_TOKEN);
 
-const res = (await discordRest.put(Routes.applicationCommands(DISCORD_APPLICATION_ID), { body: publish_commands })) as RESTPutAPIApplicationCommandsResult;
+const res = (await discordRest.put(Routes.applicationCommands(DISCORD_APPLICATION_ID), {
+	body: publish_commands,
+})) as RESTPutAPIApplicationCommandsResult;
 
-console.log(res)
+console.log(res);
