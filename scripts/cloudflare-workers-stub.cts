@@ -1,1 +1,2 @@
-module.exports = { env: process.env };
+/// <reference types="node" />
+export = { env: process.env };
