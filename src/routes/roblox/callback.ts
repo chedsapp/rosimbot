@@ -1,3 +1,5 @@
+import { Routes } from "discord-api-types/v10";
+import { DISCORD_REST } from "../../api/discord";
 import { getAllGuildConfigs } from "../../db/guild";
 import { linkAccount } from "../../db/linking";
 import page from "../../liquid";
@@ -39,27 +41,22 @@ export async function handleRobloxCallback(request: Request, env: Env, ctx: Exec
 		const idToken = await verifyRobloxJWT(token.id_token, env);
 		const previous = await linkAccount(env.rosimbot, state_token.userid, idToken.sub);
 
-		const allGuildConfigs = await getAllGuildConfigs(env.rosimbot);
+		ctx.waitUntil(
+			(async () => {
+				const allGuildConfigs = await getAllGuildConfigs(env.rosimbot);
 
-		if (previous != null) {
-			for (const [guildId, config] of allGuildConfigs) {
-				const roleId = config.verifiedRoleId;
-
-				fetch(`https://discord.com/api/v10/guilds/${guildId}/members/${previous}/roles/${roleId}`, {
-					method: "DELETE",
-					headers: { "Content-Type": "application/json", Authorization: `Bot ${env.DISCORD_TOKEN}` },
-				});
-			}
-		}
-
-		for (const [guildId, config] of allGuildConfigs) {
-			const roleId = config.verifiedRoleId;
-
-			fetch(`https://discord.com/api/v10/guilds/${guildId}/members/${state_token.userid}/roles/${roleId}`, {
-				method: "PUT",
-				headers: { "Content-Type": "application/json", Authorization: `Bot ${env.DISCORD_TOKEN}` },
-			});
-		}
+				for (const [guildId, config] of allGuildConfigs) {
+					const roleId = config.verifiedRoleId;
+					if (roleId == null) {
+						continue;
+					}
+					if (previous) {
+						DISCORD_REST.delete(Routes.guildMemberRole(guildId, previous, roleId));
+					}
+					DISCORD_REST.put(Routes.guildMemberRole(guildId, state_token.userid, roleId));
+				}
+			})(),
+		);
 
 		return page("success", { title: "RoSim Verification", kind: "ok", user: idToken.preferred_username });
 	} catch (e) {
