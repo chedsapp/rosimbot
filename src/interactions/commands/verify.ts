@@ -7,7 +7,13 @@ import {
 	TextDisplayBuilder,
 	ThumbnailBuilder,
 } from "@discordjs/builders";
-import { ApplicationIntegrationType, ButtonStyle, InteractionContextType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
+import {
+	ApplicationIntegrationType,
+	ButtonStyle,
+	InteractionContextType,
+	InteractionResponseType,
+	MessageFlags,
+} from "discord-api-types/v10";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 import { generateAuthorizationURL } from "../../oauth/roblox";
 import { env } from "cloudflare:workers";

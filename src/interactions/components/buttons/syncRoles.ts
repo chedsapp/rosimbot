@@ -44,8 +44,8 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 
 			const results = await Promise.allSettled(requests);
 			for (const result of results) {
-                // TODO: expose failed/successful role adds/removes
-                // TODO: nicknames
+				// TODO: expose failed/successful role adds/removes
+				// TODO: nicknames
 				if (result.status === "rejected") console.error("role update failed", result.reason);
 			}
 
