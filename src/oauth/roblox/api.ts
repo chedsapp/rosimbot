@@ -18,7 +18,7 @@ async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 export function exchangeCodeForToken(code: string): Promise<ObtainTokenResponse> {
-	return fetchJson(`${env.ROBLOX_BASE_API_URI}/token`, {
+	return fetchJson(`${env.ROBLOX_BASE_OAUTH_URL}/token`, {
 		method: "POST",
 		body: new URLSearchParams({
 			code,
@@ -31,7 +31,7 @@ export function exchangeCodeForToken(code: string): Promise<ObtainTokenResponse>
 }
 
 export function exchangeRefreshToken(refresh_token: string): Promise<ObtainTokenResponse> {
-	return fetchJson(`${env.ROBLOX_BASE_API_URI}/token`, {
+	return fetchJson(`${env.ROBLOX_BASE_OAUTH_URL}/token`, {
 		method: "POST",
 		body: new URLSearchParams({
 			refresh_token,

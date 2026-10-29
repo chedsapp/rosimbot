@@ -38,7 +38,7 @@
 	 * Note: Use secrets to store sensitive data.
 	 * https://developers.cloudflare.com/workers/configuration/secrets/
 	 */
-	"vars": { "ROBLOX_BASE_API_URI": "https://apis.roblox.com/oauth/v1" },
+	"vars": { "ROBLOX_BASE_OAUTH_URL": "https://apis.roblox.com/oauth/v1", "ROBLOX_BASE_API_URL": "https://apis.roblox.com/oauth/v1" },
 	"secrets": {
 		"required": [
 			"JWT_SECRET",
@@ -50,6 +50,7 @@
 			"ROBLOX_CLIENT_ID",
 			"ROBLOX_CLIENT_SECRET",
 			"ROBLOX_REDIRECT_URI",
+			"ROBLOX_API_KEY",
 		],
 	},
 	/**

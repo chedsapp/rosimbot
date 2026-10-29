@@ -16,7 +16,7 @@ export interface RobloxIdToken extends JWTPayload {
 let jwks: ReturnType<typeof createRemoteJWKSet> | undefined;
 
 function getRobloxJWKs(env: Env) {
-	jwks ??= createRemoteJWKSet(new URL(`${env.ROBLOX_BASE_API_URI}/certs`));
+	jwks ??= createRemoteJWKSet(new URL(`${env.ROBLOX_BASE_OAUTH_URL}/certs`));
 	return jwks;
 }
 

@@ -23,10 +23,7 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 			try {
 				const foundRobloxId = await getRobloxFromDiscord(searchDiscordId);
 				await editOriginal(interaction, {
-					content:
-						foundRobloxId == null
-							? `brother. im sorry brother. i couldn't find ${searchDiscordId} in my database brother. maybe they didn't sign up.`
-							: `yo bro. thank you brother. you sent me a discord id of ${searchDiscordId}. i think their roblox id is ${foundRobloxId}`,
+					components: foundRobloxId == null ? [] : [],
 				});
 			} catch (err) {
 				console.error(err);

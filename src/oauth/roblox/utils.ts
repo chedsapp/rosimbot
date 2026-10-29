@@ -23,7 +23,7 @@ export async function verifyStateJWT(state: string): Promise<StateToken> {
 }
 
 export async function generateAuthorizationURL(userid: string, env: Env): Promise<string> {
-	const url = new URL(`${env.ROBLOX_BASE_API_URI}/authorize`);
+	const url = new URL(`${env.ROBLOX_BASE_OAUTH_URL}/authorize`);
 	url.search = new URLSearchParams({
 		client_id: env.ROBLOX_CLIENT_ID,
 		redirect_uri: env.ROBLOX_REDIRECT_URI,
