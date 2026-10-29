@@ -28,13 +28,9 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 		data: {
 			components: [
 				new ContainerBuilder()
-					.addTextDisplayComponents(
-						new TextDisplayBuilder().setContent("# Guild Config\n## Verified Role")
-					)
-					.addActionRowComponents(
-						new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(select)
-					)
-					.toJSON()
+					.addTextDisplayComponents(new TextDisplayBuilder().setContent("# Guild Config\n## Verified Role"))
+					.addActionRowComponents(new ActionRowBuilder<RoleSelectMenuBuilder>().addComponents(select))
+					.toJSON(),
 			],
 			allowed_mentions: { parse: [] },
 			flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
