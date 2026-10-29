@@ -1,4 +1,11 @@
-import { ContainerBuilder, SectionBuilder, SlashCommandBuilder, SlashCommandUserOption, TextDisplayBuilder, ThumbnailBuilder } from "@discordjs/builders";
+import {
+	ContainerBuilder,
+	SectionBuilder,
+	SlashCommandBuilder,
+	SlashCommandUserOption,
+	TextDisplayBuilder,
+	ThumbnailBuilder,
+} from "@discordjs/builders";
 import { ApplicationCommandOptionType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 import { getRobloxFromDiscord } from "../../db/linking";
@@ -19,9 +26,9 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 	}
 	const searchDiscordId = userOpt.value;
 
-	const resolvedUser = interaction.data.resolved?.users?.[searchDiscordId]
+	const resolvedUser = interaction.data.resolved?.users?.[searchDiscordId];
 	if (resolvedUser == null) {
-		throw new CommandParseError("Failed to resolve user " + searchDiscordId)
+		throw new CommandParseError("Failed to resolve user " + searchDiscordId);
 	}
 
 	ctx.waitUntil(
@@ -32,30 +39,36 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 					const robloxUserInfo = await getRobloxUser(foundRobloxId);
 					await editOriginal(interaction, {
 						flags: MessageFlags.IsComponentsV2,
-						components: foundRobloxId == null ? [
-							new ContainerBuilder()
-								.addSectionComponents(
-									new SectionBuilder()
-										.addTextDisplayComponents(
-											new TextDisplayBuilder().setContent(`<@${searchDiscordId}> is linked to [${robloxUserInfo.displayName}](https://roblox.com/users/${foundRobloxId}}/profile).`)
-										)
-										.setThumbnailAccessory(
-											new ThumbnailBuilder().setURL(await getRobloxUserThumbnail(foundRobloxId))
-										)
-								)
-								.toJSON()
-						] : [],
+						components:
+							foundRobloxId == null
+								? [
+										new ContainerBuilder()
+											.addSectionComponents(
+												new SectionBuilder()
+													.addTextDisplayComponents(
+														new TextDisplayBuilder().setContent(
+															`<@${searchDiscordId}> is linked to [${robloxUserInfo.displayName}](https://roblox.com/users/${foundRobloxId}}/profile).`,
+														),
+													)
+													.setThumbnailAccessory(new ThumbnailBuilder().setURL(await getRobloxUserThumbnail(foundRobloxId))),
+											)
+											.toJSON(),
+									]
+								: [],
 					});
 				}
 				await editOriginal(interaction, {
 					flags: MessageFlags.IsComponentsV2,
-					components: foundRobloxId == null ? [
-						new ContainerBuilder()
-							.addTextDisplayComponents(
-								new TextDisplayBuilder().setContent(`<@${searchDiscordId}> is linked to FUCKING nobody! FUCK YOU!`)
-							)
-							.toJSON()
-					] : [],
+					components:
+						foundRobloxId == null
+							? [
+									new ContainerBuilder()
+										.addTextDisplayComponents(
+											new TextDisplayBuilder().setContent(`<@${searchDiscordId}> is linked to FUCKING nobody! FUCK YOU!`),
+										)
+										.toJSON(),
+								]
+							: [],
 				});
 			} catch (err) {
 				console.error(err);
