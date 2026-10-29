@@ -9,7 +9,8 @@ router
 	.get("/", () => new Response("Ok"))
 	.post("/", handleInteraction)
 	.get("/roblox/callback", handleRobloxCallback)
-	.get("/gateway", handleGatewayEvent);
+	.post("/gateway", handleGatewayEvent)
+	.all("*", () => new Response("Not Found", { status: 404 }));
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
