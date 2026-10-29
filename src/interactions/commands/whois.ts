@@ -6,12 +6,7 @@ import {
 	TextDisplayBuilder,
 	ThumbnailBuilder,
 } from "@discordjs/builders";
-import {
-	ApplicationCommandOptionType,
-	ApplicationIntegrationType,
-	InteractionResponseType,
-	MessageFlags
-} from "discord-api-types/v10";
+import { ApplicationCommandOptionType, ApplicationIntegrationType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
 import { getRobloxUser, getRobloxUserThumbnail } from "../../api/roblox";
 import { getRobloxFromDiscord } from "../../db/linking";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";

@@ -5,7 +5,7 @@ import {
 	type APIChatInputApplicationCommandInteraction,
 	type APIInteractionResponse,
 	type APIMessageComponentInteraction,
-	type RESTPostAPIChatInputApplicationCommandsJSONBody
+	type RESTPostAPIChatInputApplicationCommandsJSONBody,
 } from "discord-api-types/v10";
 
 export interface InteractionContext {
