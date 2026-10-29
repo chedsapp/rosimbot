@@ -1,27 +1,22 @@
+import { REST, RESTOptions } from "@discordjs/rest";
+import { commands } from "../src/interactions";
+import { RESTPutAPIApplicationCommandsResult, Routes } from "discord-api-types/v10";
+
 const { DISCORD_APPLICATION_ID, DISCORD_TOKEN } = process.env;
 
-const commands = [
-	{ name: "ping", type: 1, description: "Hello bro" },
-	{ name: "verify", type: 1, description: "Verify your Roblox account" },
-	{
-		name: "whois",
-		type: 1,
-		description: "Get roblox user associated with discord user",
-		options: [
-			{
-				name: "user",
-				description: "The user to check",
-				type: 6,
-				required: true,
-			},
-		],
-	},
-];
+const publish_commands = commands.map((c) => c.COMMAND);
 
-const res = await fetch(`https://discord.com/api/v10/applications/${DISCORD_APPLICATION_ID}/commands`, {
-	method: "PUT",
-	headers: { "Content-Type": "application/json", Authorization: `Bot ${DISCORD_TOKEN}` },
-	body: JSON.stringify(commands),
+const discordRest = new REST({
+	version: "10",
+	makeRequest: fetch as unknown as RESTOptions["makeRequest"],
+	hashSweepInterval: 0,
+	handlerSweepInterval: 0,
 });
 
-console.log(res.status, JSON.stringify(await res.json()));
+discordRest.setToken(DISCORD_TOKEN);
+
+const res = (await discordRest.put(Routes.applicationCommands(DISCORD_APPLICATION_ID), {
+	body: publish_commands,
+})) as RESTPutAPIApplicationCommandsResult;
+
+console.log(res);
