@@ -23,6 +23,8 @@
 		"wrangler": "^4.154.0"
 	},
 	"dependencies": {
+		"@discordjs/builders": "^1.14.1",
+		"@discordjs/rest": "^2.6.3",
 		"@shopify/prettier-plugin-liquid": "^1.11.3",
 		"@types/jsonwebtoken": "^9.0.10",
 		"discord-api-types": "^0.38.57",
