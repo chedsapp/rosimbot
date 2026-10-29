@@ -61,7 +61,7 @@ export async function handleRobloxCallback(request: Request, env: Env, ctx: Exec
 			});
 		}
 
-		return page("success", { title: "verified", kind: "ok", user: idToken.preferred_username });
+		return page("success", { title: "RoSim Verification", kind: "ok", user: idToken.preferred_username });
 	} catch (e) {
 		const known = e instanceof OAuthError;
 		if (!known) console.error("oauth callback failed", e);
@@ -71,7 +71,7 @@ export async function handleRobloxCallback(request: Request, env: Env, ctx: Exec
 		return page(
 			"error",
 			{
-				title: heading,
+				title: "RoSim Verification",
 				kind: "err",
 				heading,
 				message,
