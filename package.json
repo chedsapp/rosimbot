@@ -8,7 +8,7 @@
 		"start": "npx wrangler dev",
 		"test": "npx vitest",
 		"types": "npx wrangler types",
-		"register-commands": "tsx --env-file=.dev.vars scripts/register.mts",
+		"register-commands": "tsx --env-file=.dev.vars --import ./scripts/workers-shim.mts scripts/register.mts",
 		"format": "npx prettier --write .",
 		"apply-migrations-local": "npx wrangler d1 migrations apply rosimbot --local",
 		"apply-migrations-remote": "npx wrangler d1 migrations apply rosimbot --remote",
