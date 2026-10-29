@@ -7,7 +7,7 @@ const router = IttyRouter();
 
 router
 	.get("/", () => new Response("Ok"))
-	.post("/", handleInteraction) // deprocketet
+	// .post("/", handleInteraction) // deprocketet
 	.post("/interaction", handleInteraction)
 	.get("/roblox/callback", handleRobloxCallback)
 	.post("/gateway", handleGatewayEvent)
