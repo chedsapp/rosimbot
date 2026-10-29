@@ -1,10 +1,10 @@
-import { type APIInteractionResponse, InteractionResponseType, MessageFlags, APIMessageComponentInteraction } from "discord-api-types/v10";
+import { type APIInteractionResponse, APIMessageComponentInteraction, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
 import { CommandParseError, type ComponentModule } from "./types";
 import { genericErrorCV2 } from "./utils";
 
-import * as select_guildConfigRole from "./components/selects/guildConfigRole";
 import * as button_syncRoles from "./components/buttons/syncRoles";
 import * as button_verify from "./components/buttons/verify";
+import * as select_guildConfigRole from "./components/selects/guildConfigRole";
 
 export const components = [select_guildConfigRole, button_syncRoles, button_verify] satisfies ComponentModule[];
 

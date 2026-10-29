@@ -1,7 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { ApplicationIntegrationType, InteractionResponseType } from "discord-api-types/v10";
 import { CommandCallback, CommandDefinition } from "../types";
-import { env } from "cloudflare:workers";
 
 export const COMMAND = new SlashCommandBuilder()
 	.setName("ping")

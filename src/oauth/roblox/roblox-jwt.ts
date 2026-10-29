@@ -1,5 +1,5 @@
-import { jwtVerify, createRemoteJWKSet, type JWTPayload } from "jose";
 import { env } from "cloudflare:workers";
+import { createRemoteJWKSet, jwtVerify, type JWTPayload } from "jose";
 
 export interface RobloxIdToken extends JWTPayload {
 	sub: string;

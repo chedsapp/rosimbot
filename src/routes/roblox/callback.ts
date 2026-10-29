@@ -5,7 +5,7 @@ import { getAllGuildConfigs } from "../../db/guild";
 import { linkAccount } from "../../db/linking";
 import page from "../../liquid";
 import { ERRORS, OAuthError } from "../../oauth/constants";
-import { StateToken, verifyStateJWT, ObtainTokenResponse, exchangeCodeForToken, verifyRobloxJWT } from "../../oauth/roblox";
+import { ObtainTokenResponse, StateToken, exchangeCodeForToken, verifyRobloxJWT, verifyStateJWT } from "../../oauth/roblox";
 
 export async function handleRobloxCallback(request: Request, ctx: ExecutionContext) {
 	const url = new URL(request.url);

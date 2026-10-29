@@ -1,7 +1,7 @@
 import { Liquid } from "liquidjs";
 
-import layoutView from "../views/layout.liquid";
 import errorView from "../views/error.liquid";
+import layoutView from "../views/layout.liquid";
 import successView from "../views/success.liquid";
 
 const engine = new Liquid({

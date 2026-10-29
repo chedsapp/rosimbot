@@ -1,10 +1,10 @@
 import { ButtonBuilder } from "@discordjs/builders";
 import { APIButtonComponentWithCustomId, ButtonStyle, InteractionResponseType, MessageFlags, Routes } from "discord-api-types/v10";
-import { ComponentCallback, ComponentDefinition, ComponentParseError } from "../../types";
-import { generateVerifyComponents } from "../../../utils/verify";
 import { DISCORD_REST } from "../../../api/discord";
 import { getAllGuildConfigs } from "../../../db/guild";
 import { getRobloxFromDiscord } from "../../../db/linking";
+import { generateVerifyComponents } from "../../../utils/verify";
+import { ComponentCallback, ComponentDefinition, ComponentParseError } from "../../types";
 import { editOriginal, genericSuccessCV2 } from "../../utils";
 
 export const COMPONENT = new ButtonBuilder()

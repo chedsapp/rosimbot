@@ -7,16 +7,15 @@ import {
 	ThumbnailBuilder,
 } from "@discordjs/builders";
 import {
-	AllowedMentionsTypes,
 	ApplicationCommandOptionType,
 	ApplicationIntegrationType,
 	InteractionResponseType,
-	MessageFlags,
+	MessageFlags
 } from "discord-api-types/v10";
-import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
-import { getRobloxFromDiscord } from "../../db/linking";
-import { editOriginal } from "../utils";
 import { getRobloxUser, getRobloxUserThumbnail } from "../../api/roblox";
+import { getRobloxFromDiscord } from "../../db/linking";
+import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
+import { editOriginal } from "../utils";
 
 export const COMMAND = new SlashCommandBuilder()
 	.setName("whois")

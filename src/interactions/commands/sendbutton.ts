@@ -1,29 +1,27 @@
 import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ContainerBuilder,
-	SectionBuilder,
-	SlashCommandBuilder,
-	SlashCommandChannelOption,
-	TextDisplayBuilder,
-	ThumbnailBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ContainerBuilder,
+    SectionBuilder,
+    SlashCommandBuilder,
+    SlashCommandChannelOption,
+    TextDisplayBuilder,
+    ThumbnailBuilder,
 } from "@discordjs/builders";
 import {
-	APIButtonComponent,
-	APIButtonComponentWithCustomId,
-	ApplicationCommandOptionType,
-	ApplicationIntegrationType,
-	ChannelType,
-	InteractionContextType,
-	InteractionResponseType,
-	MessageFlags,
-	Routes,
+    ApplicationCommandOptionType,
+    ApplicationIntegrationType,
+    ChannelType,
+    InteractionContextType,
+    InteractionResponseType,
+    MessageFlags,
+    Routes
 } from "discord-api-types/v10";
-import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 import { DISCORD_REST } from "../../api/discord";
+import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 
-import * as button_verify from "../components/buttons/verify";
 import * as button_syncRoles from "../components/buttons/syncRoles";
+import * as button_verify from "../components/buttons/verify";
 import { editOriginal, genericErrorCV2, genericSuccessCV2 } from "../utils";
 
 export const COMMAND = new SlashCommandBuilder()

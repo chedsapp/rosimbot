@@ -1,23 +1,13 @@
 import {
-	ActionRowBuilder,
-	ButtonBuilder,
-	ContainerBuilder,
-	SectionBuilder,
-	SlashCommandBuilder,
-	TextDisplayBuilder,
-	ThumbnailBuilder,
+	SlashCommandBuilder
 } from "@discordjs/builders";
 import {
 	ApplicationIntegrationType,
-	ButtonStyle,
-	InteractionContextType,
 	InteractionResponseType,
-	MessageFlags,
+	MessageFlags
 } from "discord-api-types/v10";
-import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
-import { generateAuthorizationURL } from "../../oauth/roblox";
-import { env } from "cloudflare:workers";
 import { generateVerifyComponents } from "../../utils/verify";
+import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 
 export const COMMAND = new SlashCommandBuilder()
 	.setName("verify")

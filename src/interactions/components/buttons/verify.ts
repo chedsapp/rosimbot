@@ -1,7 +1,7 @@
 import { ButtonBuilder } from "@discordjs/builders";
 import { APIButtonComponentWithCustomId, ButtonStyle, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
-import { ComponentCallback, ComponentDefinition, ComponentParseError } from "../../types";
 import { generateVerifyComponents } from "../../../utils/verify";
+import { ComponentCallback, ComponentDefinition, ComponentParseError } from "../../types";
 
 export const COMPONENT = new ButtonBuilder()
 	.setLabel("Verify")

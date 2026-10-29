@@ -1,10 +1,10 @@
 import { RoleSelectMenuBuilder } from "@discordjs/builders";
 import { APIGuild, APIRole, InteractionResponseType, MessageFlags, PermissionFlagsBits, Routes } from "discord-api-types/v10";
-import { ComponentCallback, ComponentDefinition, ComponentParseError } from "../../types";
-import { hasPermission, sortRole } from "../../../utils/permissions";
 import { DISCORD_REST } from "../../../api/discord";
-import { assertRoleSelect, editOriginal, genericErrorCV2, genericSuccessCV2 } from "../../utils";
 import { setVerifiedRole } from "../../../db/guild";
+import { hasPermission, sortRole } from "../../../utils/permissions";
+import { ComponentCallback, ComponentDefinition, ComponentParseError } from "../../types";
+import { assertRoleSelect, editOriginal, genericErrorCV2, genericSuccessCV2 } from "../../utils";
 
 export const COMPONENT = new RoleSelectMenuBuilder()
 	.setPlaceholder("Select a role...")

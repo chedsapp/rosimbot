@@ -1,8 +1,7 @@
 import { IttyRouter } from "itty-router";
+import { handleGatewayEvent } from "./routes/gateway";
 import handleInteraction from "./routes/interaction";
 import { handleRobloxCallback } from "./routes/roblox/callback";
-import { handleGatewayEvent } from "./routes/gateway";
-import { getRobloxUserThumbnail } from "./api/roblox";
 
 const router = IttyRouter();
 

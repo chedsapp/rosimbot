@@ -1,5 +1,5 @@
-import { GatewayDispatchPayload } from "discord-api-types/v10";
 import { env } from "cloudflare:workers";
+import { GatewayDispatchPayload } from "discord-api-types/v10";
 
 export async function handleGatewayEvent(req: Request, ctx: ExecutionContext): Promise<Response> {
 	if (req.headers.get("x-gateway-secret") !== env.GATEWAY_TOKEN) {

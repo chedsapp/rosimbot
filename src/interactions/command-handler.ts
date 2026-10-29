@@ -1,16 +1,16 @@
 import {
-	type APIInteractionResponse,
+	APIChatInputApplicationCommandInteraction,
 	InteractionResponseType,
 	MessageFlags,
-	APIChatInputApplicationCommandInteraction,
+	type APIInteractionResponse,
 } from "discord-api-types/v10";
-import { CommandParseError, type CommandModule } from "./types";
-import { genericErrorCV2 } from "./utils";
+import * as guildconfig from "./commands/guildconfig";
+import * as ping from "./commands/ping";
+import * as sendbutton from "./commands/sendbutton";
 import * as verify from "./commands/verify";
 import * as whois from "./commands/whois";
-import * as ping from "./commands/ping";
-import * as guildconfig from "./commands/guildconfig";
-import * as sendbutton from "./commands/sendbutton";
+import { CommandParseError, type CommandModule } from "./types";
+import { genericErrorCV2 } from "./utils";
 
 export const commands = [verify, whois, ping, guildconfig, sendbutton] satisfies CommandModule[];
 

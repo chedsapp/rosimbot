@@ -1,7 +1,6 @@
-import { verifyKey, InteractionType, InteractionResponseType } from "discord-interactions";
-import {} from "@discordjs/builders";
-import COMMAND_HANDLER from "../interactions/command-handler";
 import { env } from "cloudflare:workers";
+import { InteractionResponseType, InteractionType, verifyKey } from "discord-interactions";
+import COMMAND_HANDLER from "../interactions/command-handler";
 import COMPONENT_HANDLER from "../interactions/component-handler";
 
 export default async function handleInteraction(request: Request, ctx: ExecutionContext) {

@@ -1,5 +1,5 @@
-import { SignJWT, jwtVerify } from "jose";
 import { env } from "cloudflare:workers";
+import { SignJWT, jwtVerify } from "jose";
 
 const encoder = new TextEncoder();
 
