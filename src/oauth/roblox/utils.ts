@@ -1,4 +1,5 @@
-import { SignJWT, jwtVerify, createRemoteJWKSet, type JWTPayload } from "jose";
+import { SignJWT, jwtVerify } from "jose";
+import { env } from "cloudflare:workers";
 
 const encoder = new TextEncoder();
 
@@ -6,16 +7,16 @@ export interface StateToken {
 	userid: string;
 }
 
-export async function generateStateJWT(data: StateToken, secret: string): Promise<string> {
+export async function generateStateJWT(data: StateToken): Promise<string> {
 	return await new SignJWT({ ...data })
 		.setProtectedHeader({ alg: "HS256" })
 		.setIssuedAt()
 		.setExpirationTime("5m")
-		.sign(encoder.encode(secret));
+		.sign(encoder.encode(env.JWT_SECRET));
 }
 
-export async function verifyStateJWT(state: string, secret: string): Promise<StateToken> {
-	const { payload } = await jwtVerify<StateToken>(state, encoder.encode(secret), {
+export async function verifyStateJWT(state: string,): Promise<StateToken> {
+	const { payload } = await jwtVerify<StateToken>(state, encoder.encode(env.JWT_SECRET), {
 		algorithms: ["HS256"],
 	});
 	return payload;
@@ -28,7 +29,7 @@ export async function generateAuthorizationURL(userid: string, env: Env): Promis
 		redirect_uri: env.ROBLOX_REDIRECT_URI,
 		scope: "openid profile",
 		response_type: "code",
-		state: await generateStateJWT({ userid }, env.JWT_SECRET),
+		state: await generateStateJWT({ userid }),
 	}).toString();
 	return url.toString();
 }

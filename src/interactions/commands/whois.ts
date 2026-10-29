@@ -10,7 +10,7 @@ export const COMMAND = new SlashCommandBuilder()
 	.addUserOption(new SlashCommandUserOption().setName("user").setDescription("The user to search"))
 	.toJSON() satisfies CommandDefinition;
 
-export const callback: CommandCallback = async (interaction, ctx, env) => {
+export const callback: CommandCallback = async (interaction, ctx) => {
 	const userOpt = interaction.data.options?.find((o) => o.name === "user");
 	if (userOpt?.type !== ApplicationCommandOptionType.User) {
 		// option missing or wrong type: reply with an error
@@ -21,7 +21,7 @@ export const callback: CommandCallback = async (interaction, ctx, env) => {
 	ctx.waitUntil(
 		(async () => {
 			try {
-				const foundRobloxId = await getRobloxFromDiscord(env.rosimbot, searchDiscordId);
+				const foundRobloxId = await getRobloxFromDiscord(searchDiscordId);
 				await editOriginal(interaction, {
 					content:
 						foundRobloxId == null

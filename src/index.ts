@@ -14,7 +14,7 @@ router
 	.all("*", () => new Response("Not Found", { status: 404 }));
 
 export default {
-	async fetch(request, env, ctx): Promise<Response> {
-		return await router.fetch(request, env, ctx);
+	async fetch(request, _, ctx): Promise<Response> {
+		return await router.fetch(request, ctx);
 	},
 } satisfies ExportedHandler<Env>;

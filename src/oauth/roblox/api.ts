@@ -1,3 +1,5 @@
+import { env } from "cloudflare:workers";
+
 export interface ObtainTokenResponse {
 	access_token: string;
 	refresh_token: string;
@@ -15,7 +17,7 @@ async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
 	return (await response.json()) as T;
 }
 
-export function exchangeCodeForToken(code: string, env: Env): Promise<ObtainTokenResponse> {
+export function exchangeCodeForToken(code: string): Promise<ObtainTokenResponse> {
 	return fetchJson(`${env.ROBLOX_BASE_API_URI}/token`, {
 		method: "POST",
 		body: new URLSearchParams({
@@ -28,7 +30,7 @@ export function exchangeCodeForToken(code: string, env: Env): Promise<ObtainToke
 	});
 }
 
-export function exchangeRefreshToken(refresh_token: string, env: Env): Promise<ObtainTokenResponse> {
+export function exchangeRefreshToken(refresh_token: string): Promise<ObtainTokenResponse> {
 	return fetchJson(`${env.ROBLOX_BASE_API_URI}/token`, {
 		method: "POST",
 		body: new URLSearchParams({

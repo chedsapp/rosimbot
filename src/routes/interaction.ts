@@ -1,8 +1,9 @@
 import { verifyKey, InteractionType, InteractionResponseType } from "discord-interactions";
 import {} from "@discordjs/builders";
 import COMMAND_HANDLER from "../interactions";
+import { env } from "cloudflare:workers";
 
-export default async function handleInteraction(request: Request, env: Env, ctx: ExecutionContext) {
+export default async function handleInteraction(request: Request, ctx: ExecutionContext) {
 	const signature = request.headers.get("X-Signature-Ed25519");
 	const timestamp = request.headers.get("X-Signature-Timestamp");
 	const body = await request.text();
@@ -18,7 +19,7 @@ export default async function handleInteraction(request: Request, env: Env, ctx:
 	}
 
 	if (interaction.type === InteractionType.APPLICATION_COMMAND) {
-		return await COMMAND_HANDLER.fetch(interaction, ctx, env);
+		return await COMMAND_HANDLER.fetch(interaction, ctx);
 	}
 
 	return new Response("Unknown interaction", { status: 400 });

@@ -19,12 +19,12 @@ export class CommandHandler {
 		this.map = new Map(commands.map((c) => [c.COMMAND.name, c]));
 	}
 
-	fetch = async (interaction: APIChatInputApplicationCommandInteraction, ctx: ExecutionContext, env: Env): Promise<Response> => {
+	fetch = async (interaction: APIChatInputApplicationCommandInteraction, ctx: ExecutionContext): Promise<Response> => {
 		const command = this.map.get(interaction.data.name);
 		if (!command) return this.reply(this.error("Unknown command."));
 
 		try {
-			const res = await command.callback(interaction, { waitUntil: (p) => ctx.waitUntil(p) }, env);
+			const res = await command.callback(interaction, { waitUntil: (p) => ctx.waitUntil(p) });
 			return this.reply(res);
 		} catch (err) {
 			console.error(`/${interaction.data.name} failed:`, err);

@@ -10,14 +10,14 @@ import {
 import { ButtonStyle, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 import { generateAuthorizationURL } from "../../oauth/roblox";
-import { genericErrorCV2 } from "../utils";
+import { env } from "cloudflare:workers";
 
 export const COMMAND = new SlashCommandBuilder()
 	.setName("verify")
 	.setDescription("Verify your Roblox account")
 	.toJSON() satisfies CommandDefinition;
 
-export const callback: CommandCallback = async (interaction, ctx, env) => {
+export const callback: CommandCallback = async (interaction, ctx) => {
 	const invokerId = interaction.member?.user.id ?? interaction.user?.id;
 	if (invokerId == null) {
 		throw new CommandParseError("Failed to get command invoker ID.");

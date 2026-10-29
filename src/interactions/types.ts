@@ -13,7 +13,6 @@ export interface CommandContext {
 export type CommandCallback = (
 	interaction: APIChatInputApplicationCommandInteraction,
 	ctx: CommandContext,
-	env: Env,
 ) => Promise<APIInteractionResponse>;
 
 export interface CommandModule {

@@ -1,5 +1,5 @@
 import { ContainerBuilder, TextDisplayBuilder } from "@discordjs/builders";
-import { DiscordAPIError, REST, RESTOptions } from "@discordjs/rest";
+import { DiscordAPIError } from "@discordjs/rest";
 import {
 	type APIInteraction,
 	type RESTPatchAPIWebhookWithTokenMessageJSONBody,
