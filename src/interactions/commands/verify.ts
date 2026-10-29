@@ -1,11 +1,5 @@
-import {
-	SlashCommandBuilder
-} from "@discordjs/builders";
-import {
-	ApplicationIntegrationType,
-	InteractionResponseType,
-	MessageFlags
-} from "discord-api-types/v10";
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { ApplicationIntegrationType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
 import { generateVerifyComponents } from "../../utils/verify";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 

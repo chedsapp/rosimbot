@@ -1,4 +1,4 @@
 {
 	"printWidth": 140,
-	"plugins": ["@shopify/prettier-plugin-liquid"]
+	"plugins": ["@shopify/prettier-plugin-liquid", "prettier-plugin-organize-imports"]
 }

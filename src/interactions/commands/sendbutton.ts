@@ -1,21 +1,21 @@
 import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    ContainerBuilder,
-    SectionBuilder,
-    SlashCommandBuilder,
-    SlashCommandChannelOption,
-    TextDisplayBuilder,
-    ThumbnailBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	ContainerBuilder,
+	SectionBuilder,
+	SlashCommandBuilder,
+	SlashCommandChannelOption,
+	TextDisplayBuilder,
+	ThumbnailBuilder,
 } from "@discordjs/builders";
 import {
-    ApplicationCommandOptionType,
-    ApplicationIntegrationType,
-    ChannelType,
-    InteractionContextType,
-    InteractionResponseType,
-    MessageFlags,
-    Routes
+	ApplicationCommandOptionType,
+	ApplicationIntegrationType,
+	ChannelType,
+	InteractionContextType,
+	InteractionResponseType,
+	MessageFlags,
+	Routes,
 } from "discord-api-types/v10";
 import { DISCORD_REST } from "../../api/discord";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
