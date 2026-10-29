@@ -11,6 +11,7 @@ import { ButtonStyle, InteractionResponseType, MessageFlags } from "discord-api-
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 import { generateAuthorizationURL } from "../../oauth/roblox";
 import { env } from "cloudflare:workers";
+import { generateVerifyComponents } from "../../utils/verifyComponents";
 
 export const COMMAND = new SlashCommandBuilder()
 	.setName("verify")
@@ -26,29 +27,7 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 		type: InteractionResponseType.ChannelMessageWithSource,
 		data: {
 			flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
-			components: [
-				new ContainerBuilder()
-					.addSectionComponents(
-						new SectionBuilder()
-							.addTextDisplayComponents(
-								new TextDisplayBuilder().setContent(
-									"# Verify to access RoSim\nClick the button below to verify your Roblox account.\nDo not share this link.",
-								),
-							)
-							.setThumbnailAccessory(
-								new ThumbnailBuilder().setURL("https://cdn.discordapp.com/icons/1393308664151932938/7ab93dfc9958cbe2bd620d0f46280a33.webp"),
-							),
-					)
-					.toJSON(),
-				new ActionRowBuilder<ButtonBuilder>()
-					.addComponents(
-						new ButtonBuilder()
-							.setStyle(ButtonStyle.Link)
-							.setURL(await generateAuthorizationURL(invokerId, env))
-							.setLabel("Verify"),
-					)
-					.toJSON(),
-			],
+			components: await generateVerifyComponents(invokerId),
 		},
 	};
 };
