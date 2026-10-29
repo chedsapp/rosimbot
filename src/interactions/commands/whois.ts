@@ -45,7 +45,7 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 									new SectionBuilder()
 										.addTextDisplayComponents(
 											new TextDisplayBuilder().setContent(
-												`<@${searchDiscordId}> is linked to [${robloxUserInfo.displayName}](https://roblox.com/users/${foundRobloxId}}/profile).`,
+												`<@${searchDiscordId}> is linked to [${robloxUserInfo.displayName}](https://roblox.com/users/${foundRobloxId}/profile).`,
 											),
 										)
 										.setThumbnailAccessory(new ThumbnailBuilder().setURL(await getRobloxUserThumbnail(foundRobloxId))),
