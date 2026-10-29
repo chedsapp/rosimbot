@@ -6,7 +6,7 @@ import {
 	TextDisplayBuilder,
 	ThumbnailBuilder,
 } from "@discordjs/builders";
-import { AllowedMentionsTypes, ApplicationCommandOptionType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
+import { AllowedMentionsTypes, ApplicationCommandOptionType, ApplicationIntegrationType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 import { getRobloxFromDiscord } from "../../db/linking";
 import { editOriginal } from "../utils";
@@ -16,6 +16,7 @@ export const COMMAND = new SlashCommandBuilder()
 	.setName("whois")
 	.setDescription("Check what a Discord user's Roblox link is")
 	.addUserOption(new SlashCommandUserOption().setName("user").setDescription("The user to search").setRequired(true))
+	.setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
 	.toJSON() satisfies CommandDefinition;
 
 export const callback: CommandCallback = async (interaction, ctx) => {

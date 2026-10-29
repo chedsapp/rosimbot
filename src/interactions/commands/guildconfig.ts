@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ContainerBuilder, RoleSelectMenuBuilder, SlashCommandBuilder, TextDisplayBuilder } from "@discordjs/builders";
-import { InteractionResponseType, MessageFlags } from "discord-api-types/v10";
+import { ApplicationIntegrationType, InteractionContextType, InteractionResponseType, MessageFlags } from "discord-api-types/v10";
 import { CommandCallback, CommandDefinition, CommandParseError } from "../types";
 import { getGuildConfig } from "../../db/guild";
 import * as select_guildConfigRole from "../components/selects/guildConfigRole";
@@ -8,6 +8,8 @@ export const COMMAND = new SlashCommandBuilder()
 	.setName("guildconfig")
 	.setDescription("Show the guild's configuration")
 	.setDefaultMemberPermissions(0)
+	.setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
+	.setContexts(InteractionContextType.Guild)
 	.toJSON() satisfies CommandDefinition;
 
 export const callback: CommandCallback = async (interaction, ctx) => {

@@ -38,7 +38,7 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 			const guild: APIGuild = (await DISCORD_REST.get(Routes.guild(guildId))) as APIGuild;
 			if (resolvedRole) {
 				if (guild.owner_id !== invokerId) {
-					if (!hasPermission(permissions, PermissionFlagsBits.Administrator)) {
+					if (!hasPermission(permissions, PermissionFlagsBits.ManageRoles)) {
 						await editOriginal(interaction, {
 							flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
 							...genericErrorCV2("You do not have permission use this menu!"),

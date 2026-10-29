@@ -3,8 +3,10 @@ import { CommandParseError, type ComponentModule } from "./types";
 import { genericErrorCV2 } from "./utils";
 
 import * as select_guildConfigRole from "./components/selects/guildConfigRole";
+import * as button_syncRoles from "./components/buttons/syncRoles";
+import * as button_verify from "./components/buttons/verify";
 
-export const components = [select_guildConfigRole] satisfies ComponentModule[];
+export const components = [select_guildConfigRole, button_syncRoles, button_verify] satisfies ComponentModule[];
 
 export class ComponentHandler {
 	private readonly map: Map<string, ComponentModule>;

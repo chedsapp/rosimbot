@@ -10,8 +10,9 @@ import * as verify from "./commands/verify";
 import * as whois from "./commands/whois";
 import * as ping from "./commands/ping";
 import * as guildconfig from "./commands/guildconfig";
+import * as sendbutton from "./commands/sendbutton";
 
-export const commands = [verify, whois, ping, guildconfig] satisfies CommandModule[];
+export const commands = [verify, whois, ping, guildconfig, sendbutton] satisfies CommandModule[];
 
 export class CommandHandler {
 	private readonly map: Map<string, CommandModule>;
