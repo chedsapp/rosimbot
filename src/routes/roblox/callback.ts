@@ -45,6 +45,7 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 		ctx.waitUntil(
 			(async () => {
 				const allGuildConfigs = await getAllGuildConfigs();
+				const requests: Promise<unknown>[] = [];
 
 				for (const [guildId, config] of allGuildConfigs) {
 					const roleId = config.verifiedRoleId;
@@ -52,9 +53,14 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 						continue;
 					}
 					if (previous) {
-						DISCORD_REST.delete(Routes.guildMemberRole(guildId, previous, roleId));
+						requests.push(DISCORD_REST.delete(Routes.guildMemberRole(guildId, previous, roleId)));
 					}
-					DISCORD_REST.put(Routes.guildMemberRole(guildId, state_token.userid, roleId));
+					requests.push(DISCORD_REST.put(Routes.guildMemberRole(guildId, state_token.userid, roleId)));
+				}
+
+				const results = await Promise.allSettled(requests);
+				for (const result of results) {
+					if (result.status === "rejected") console.error("role update failed", result.reason);
 				}
 			})(),
 		);
