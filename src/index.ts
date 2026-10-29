@@ -1,13 +1,15 @@
 import { IttyRouter } from "itty-router";
 import handleInteraction from "./routes/interaction";
 import { handleRobloxCallback } from "./routes/roblox/callback";
+import { handleGatewayEvent } from "./routes/gateway/event";
 
 const router = IttyRouter();
 
 router
 	.get("/", () => new Response("Ok"))
 	.post("/", handleInteraction)
-	.get("/roblox/callback", handleRobloxCallback);
+	.get("/roblox/callback", handleRobloxCallback)
+	.get("/gateway", handleGatewayEvent());
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
