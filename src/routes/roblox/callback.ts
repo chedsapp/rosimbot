@@ -1,5 +1,6 @@
 import { Routes } from "discord-api-types/v10";
 import { DISCORD_REST } from "../../api/discord";
+import { getRobloxUserThumbnail } from "../../api/roblox";
 import { getAllGuildConfigs } from "../../db/guild";
 import { linkAccount } from "../../db/linking";
 import page from "../../liquid";
@@ -58,7 +59,14 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 			})(),
 		);
 
-		return page("success", { title: "RoSim Verification", kind: "ok", user: idToken.preferred_username });
+		let headshot: string | undefined;
+		try {
+			headshot = await getRobloxUserThumbnail(idToken.sub, { size: 352, format: "PNG", shape: "ROUND" });
+		} catch (err) {
+			console.error("headshot fetch failed", err);
+		}
+
+		return page("success", { title: "RoSim Verification", kind: "ok", user: idToken.preferred_username, headshot });
 	} catch (e) {
 		const known = e instanceof OAuthError;
 		if (!known) console.error("oauth callback failed", e);
