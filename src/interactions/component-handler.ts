@@ -1,9 +1,4 @@
-import {
-	type APIInteractionResponse,
-	InteractionResponseType,
-	MessageFlags,
-	APIMessageComponentInteraction,
-} from "discord-api-types/v10";
+import { type APIInteractionResponse, InteractionResponseType, MessageFlags, APIMessageComponentInteraction } from "discord-api-types/v10";
 import { CommandParseError, type ComponentModule } from "./types";
 import { genericErrorCV2 } from "./utils";
 

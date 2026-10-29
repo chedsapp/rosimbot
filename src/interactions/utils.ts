@@ -43,16 +43,13 @@ export function genericErrorCV2(message: string): RESTPostAPIChannelMessageJSONB
 export function genericSuccessCV2(message: string): RESTPostAPIChannelMessageJSONBody {
 	return {
 		components: [
-			new ContainerBuilder().addTextDisplayComponents(new TextDisplayBuilder().setContent(message)).setAccentColor(0x2ECC71).toJSON(),
+			new ContainerBuilder().addTextDisplayComponents(new TextDisplayBuilder().setContent(message)).setAccentColor(0x2ecc71).toJSON(),
 		],
 	};
 }
 
-
-export function assertRoleSelect(
-  interaction: APIMessageComponentInteraction,
-): asserts interaction is RoleSelectInteraction {
-  if (interaction.data.component_type !== ComponentType.RoleSelect) {
-    throw new ComponentParseError("Expected a role select");
-  }
+export function assertRoleSelect(interaction: APIMessageComponentInteraction): asserts interaction is RoleSelectInteraction {
+	if (interaction.data.component_type !== ComponentType.RoleSelect) {
+		throw new ComponentParseError("Expected a role select");
+	}
 }

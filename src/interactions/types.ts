@@ -36,10 +36,7 @@ export class CommandParseError extends Error {
 // Components
 export type ComponentDefinition = APIButtonComponentWithCustomId | APISelectMenuComponent;
 
-export type ComponentCallback = (
-	interaction: APIMessageComponentInteraction,
-	ctx: InteractionContext,
-) => Promise<APIInteractionResponse>;
+export type ComponentCallback = (interaction: APIMessageComponentInteraction, ctx: InteractionContext) => Promise<APIInteractionResponse>;
 
 export interface ComponentModule {
 	COMPONENT: ComponentDefinition;
@@ -53,5 +50,5 @@ export class ComponentParseError extends Error {
 }
 
 export type RoleSelectInteraction = APIMessageComponentInteraction & {
-  data: APIMessageRoleSelectInteractionData;
+	data: APIMessageRoleSelectInteractionData;
 };
