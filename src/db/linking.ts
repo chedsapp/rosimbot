@@ -11,8 +11,8 @@ export async function linkAccount(db: D1Database, discordId: string, robloxId: s
 	return removed.results[0]?.discord_id; // so you can remove roles from prev user if any
 }
 
-export async function getRobloxFromDiscord(db: D1Database, discordId: string): Promise<string | undefined> {
+export async function getRobloxFromDiscord(db: D1Database, discordId: string): Promise<string | null> {
 	const find = await db.prepare("SELECT roblox_id FROM links WHERE discord_id = ?1").bind(discordId).first<{ roblox_id: string }>();
 
-	return find?.roblox_id;
+	return find?.roblox_id ?? null;
 }
