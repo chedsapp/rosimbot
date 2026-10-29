@@ -8,7 +8,7 @@ export const COMMAND = new SlashCommandBuilder()
 	.setName("setverifiedrole")
 	.setDescription("Set the guild's verification role")
 	.addRoleOption(new SlashCommandRoleOption().setName("role").setDescription("The role to set").setRequired(true))
-    .setDefaultMemberPermissions(0)
+	.setDefaultMemberPermissions(0)
 	.toJSON() satisfies CommandDefinition;
 
 export const callback: CommandCallback = async (interaction, ctx) => {
@@ -17,10 +17,10 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 		throw new CommandParseError("Invalid type for role option");
 	}
 
-    const guildId = interaction.guild_id;
-    if (guildId == null) {
-        throw new CommandParseError("Guild ID is null");
-    }
+	const guildId = interaction.guild_id;
+	if (guildId == null) {
+		throw new CommandParseError("Guild ID is null");
+	}
 
 	ctx.waitUntil(
 		(async () => {
