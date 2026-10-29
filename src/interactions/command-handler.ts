@@ -9,10 +9,9 @@ import { genericErrorCV2 } from "./utils";
 import * as verify from "./commands/verify";
 import * as whois from "./commands/whois";
 import * as ping from "./commands/ping";
-import * as setverifiedrole from "./commands/setverifiedrole";
 import * as guildconfig from "./commands/guildconfig";
 
-export const commands = [verify, whois, ping, setverifiedrole, guildconfig] satisfies CommandModule[];
+export const commands = [verify, whois, ping, guildconfig] satisfies CommandModule[];
 
 export class CommandHandler {
 	private readonly map: Map<string, CommandModule>;

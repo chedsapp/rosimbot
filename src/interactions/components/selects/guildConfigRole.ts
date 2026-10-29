@@ -64,7 +64,7 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 			await setVerifiedRole(guildId, roleId);
 			await editOriginal(interaction, {
 				flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
-				...genericSuccessCV2(`Set <@&${roleId} as the verified role for ${guild.name}`),
+				...genericSuccessCV2(`Set <@&${roleId}> as the verified role for ${guild.name}`),
 				allowed_mentions: {},
 			});
 			return;
