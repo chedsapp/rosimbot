@@ -9,7 +9,7 @@ router
 	.get("/", () => new Response("Ok"))
 	.post("/", handleInteraction)
 	.get("/roblox/callback", handleRobloxCallback)
-	.get("/gateway", handleGatewayEvent());
+	.get("/gateway", handleGatewayEvent);
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
