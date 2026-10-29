@@ -1,8 +1,8 @@
 import { REST, RESTOptions } from "@discordjs/rest";
 
 export const DISCORD_REST = new REST({
-  version: "10",
-  makeRequest: fetch as unknown as RESTOptions["makeRequest"],
-  hashSweepInterval: 0,
-  handlerSweepInterval: 0,
+	version: "10",
+	makeRequest: fetch as unknown as RESTOptions["makeRequest"],
+	hashSweepInterval: 0,
+	handlerSweepInterval: 0,
 });
