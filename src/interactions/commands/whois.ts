@@ -12,9 +12,9 @@ export const COMMAND = new SlashCommandBuilder()
 
 export const callback: CommandCallback = async (interaction, ctx, env) => {
 	const userOpt = interaction.data.options?.find((o) => o.name === "user");
-	if (userOpt?.type !== ApplicationCommandOptionType.String) {
+	if (userOpt?.type !== ApplicationCommandOptionType.User) {
 		// option missing or wrong type: reply with an error
-		throw new CommandParseError("Invalid type for option");
+		throw new CommandParseError("Invalid type for user option");
 	}
 	const searchDiscordId = userOpt.value;
 
