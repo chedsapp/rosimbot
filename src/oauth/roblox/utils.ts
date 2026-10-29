@@ -15,7 +15,7 @@ export async function generateStateJWT(data: StateToken): Promise<string> {
 		.sign(encoder.encode(env.JWT_SECRET));
 }
 
-export async function verifyStateJWT(state: string,): Promise<StateToken> {
+export async function verifyStateJWT(state: string): Promise<StateToken> {
 	const { payload } = await jwtVerify<StateToken>(state, encoder.encode(env.JWT_SECRET), {
 		algorithms: ["HS256"],
 	});

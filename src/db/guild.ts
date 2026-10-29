@@ -29,10 +29,9 @@ export async function getAllGuildConfigs(): Promise<Map<string, GuildConfig>> {
 	return new Map(results.map((row) => [row.guild_id, toGuildConfig(row)]));
 }
 export async function setVerifiedRole(guildId: string, roleId: string | null): Promise<void> {
-	await DB
-		.prepare(
-			"INSERT INTO guild_config (guild_id, verified_role_id) VALUES (?1, ?2) ON CONFLICT(guild_id) DO UPDATE SET verified_role_id = excluded.verified_role_id",
-		)
+	await DB.prepare(
+		"INSERT INTO guild_config (guild_id, verified_role_id) VALUES (?1, ?2) ON CONFLICT(guild_id) DO UPDATE SET verified_role_id = excluded.verified_role_id",
+	)
 		.bind(guildId, roleId)
 		.run();
 }
