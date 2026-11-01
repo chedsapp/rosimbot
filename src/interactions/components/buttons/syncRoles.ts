@@ -1,5 +1,12 @@
 import { ButtonBuilder } from "@discordjs/builders";
-import { APIButtonComponentWithCustomId, ButtonStyle, InteractionResponseType, MessageFlags, Routes } from "discord-api-types/v10";
+import {
+	APIButtonComponentWithCustomId,
+	APIGuild,
+	ButtonStyle,
+	InteractionResponseType,
+	MessageFlags,
+	Routes,
+} from "discord-api-types/v10";
 import { DISCORD_REST } from "../../../api/discord";
 import { getAllGuildConfigs } from "../../../db/guild";
 import { getRobloxFromDiscord } from "../../../db/linking";
@@ -32,26 +39,44 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 			}
 
 			const allGuildConfigs = await getAllGuildConfigs();
-			const requests: Promise<unknown>[] = [];
+			const requests: Promise<string>[] = [];
 
 			for (const [guildId, config] of allGuildConfigs) {
 				const roleId = config.verifiedRoleId;
 				if (roleId == null) {
 					continue;
 				}
-				requests.push(DISCORD_REST.put(Routes.guildMemberRole(guildId, invokerId, foundRobloxId)));
+				requests.push(
+					(async () => {
+						await DISCORD_REST.put(Routes.guildMemberRole(guildId, invokerId, roleId));
+						try {
+							const guild = (await DISCORD_REST.get(Routes.guild(guildId))) as APIGuild;
+							const roleName = guild.roles.find((role) => role.id === roleId)?.name ?? roleId;
+							return `**${roleName}** in ${guild.name}`;
+						} catch {
+							return `<@&${roleId}>`;
+						}
+					})(),
+				);
 			}
 
 			const results = await Promise.allSettled(requests);
+			const addedRoles: string[] = [];
 			for (const result of results) {
-				// TODO: expose failed/successful role adds/removes
+				// TODO: show failed role adds/removes
 				// TODO: nicknames
-				if (result.status === "rejected") console.error("role update failed", result.reason);
+				if (result.status === "fulfilled") addedRoles.push(result.value);
+				else console.error("role update failed", result.reason);
 			}
+
+			const message =
+				addedRoles.length > 0
+					? `Your roles have been updated! Roles added:\n${addedRoles.map((role) => `- ${role}`).join("\n")}`
+					: "No roles were added.";
 
 			await editOriginal(interaction, {
 				flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
-				...(await genericSuccessCV2("Your roles have been updated!")),
+				...(await genericSuccessCV2(message)),
 			});
 			return;
 		})(),
