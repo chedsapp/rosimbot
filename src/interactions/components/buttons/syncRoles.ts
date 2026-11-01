@@ -1,4 +1,4 @@
-import { ButtonBuilder } from "@discordjs/builders";
+import { ButtonBuilder, ContainerBuilder, TextDisplayBuilder } from "@discordjs/builders";
 import { DiscordAPIError } from "@discordjs/rest";
 import {
 	APIButtonComponentWithCustomId,
@@ -14,7 +14,7 @@ import { getAllGuildConfigs } from "../../../db/guild";
 import { getRobloxFromDiscord } from "../../../db/linking";
 import { generateVerifyComponents } from "../../../utils/verify";
 import { ComponentCallback, ComponentDefinition, ComponentParseError } from "../../types";
-import { editOriginal, genericSuccessCV2 } from "../../utils";
+import { editOriginal } from "../../utils";
 
 export const COMPONENT = new ButtonBuilder()
 	.setLabel("Sync Roles")
@@ -22,6 +22,35 @@ export const COMPONENT = new ButtonBuilder()
 	.setStyle(ButtonStyle.Secondary)
 	.setCustomId("buttons/syncRoles")
 	.toJSON() as APIButtonComponentWithCustomId satisfies ComponentDefinition;
+
+interface AddedRole {
+	guildName: string;
+	roleName: string;
+}
+
+function sanitize(text: string): string {
+	// the funny
+	return text; // text.replaceAll("`", "'");
+}
+
+function buildSyncResultContainer(addedRoles: AddedRole[]): ContainerBuilder {
+	const byGuild = Map.groupBy(addedRoles, (role) => role.guildName);
+	const lines: string[] = [];
+	for (const [guildName, roles] of byGuild) {
+		lines.push(`@@ ${sanitize(guildName)} @@`);
+		for (const role of roles) lines.push(`+ ${sanitize(role.roleName)}`);
+	}
+	if (lines.length === 0) lines.push("  No role changes");
+
+	const summary =
+		addedRoles.length > 0 ? `-# ${addedRoles.length} role${addedRoles.length === 1 ? "" : "s"} synced` : "-# You're already up to date";
+
+	return new ContainerBuilder()
+		.setAccentColor(addedRoles.length > 0 ? 0x2ecc71 : 0x95a5a6)
+		.addTextDisplayComponents(
+			new TextDisplayBuilder().setContent(["## 🔄 Roles Synced", "```diff", ...lines, "```", summary].join("\n")),
+		);
+}
 
 export const callback: ComponentCallback = async (interaction, ctx) => {
 	const invokerId = interaction.member?.user.id ?? interaction.user?.id;
@@ -41,7 +70,7 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 			}
 
 			const allGuildConfigs = await getAllGuildConfigs();
-			const requests: Promise<string>[] = [];
+			const requests: Promise<AddedRole>[] = [];
 
 			for (const [guildId, config] of allGuildConfigs) {
 				const roleId = config.verifiedRoleId;
@@ -54,16 +83,16 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 						try {
 							const guild = (await DISCORD_REST.get(Routes.guild(guildId))) as APIGuild;
 							const roleName = guild.roles.find((role) => role.id === roleId)?.name ?? roleId;
-							return `**${roleName}** in ${guild.name}`;
+							return { guildName: guild.name, roleName };
 						} catch {
-							return `<@&${roleId}>`;
+							return { guildName: guildId, roleName: roleId };
 						}
 					})(),
 				);
 			}
 
 			const results = await Promise.allSettled(requests);
-			const addedRoles: string[] = [];
+			const addedRoles: AddedRole[] = [];
 			for (const result of results) {
 				// TODO: show failed role adds/removes
 				// TODO: nicknames
@@ -75,14 +104,9 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 				}
 			}
 
-			const message =
-				addedRoles.length > 0
-					? `Your roles have been updated! Roles added:\n${addedRoles.map((role) => `- ${role}`).join("\n")}`
-					: "No roles were added.";
-
 			await editOriginal(interaction, {
 				flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
-				...(await genericSuccessCV2(message)),
+				components: [buildSyncResultContainer(addedRoles).toJSON()],
 			});
 			return;
 		})(),
