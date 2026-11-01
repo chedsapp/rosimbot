@@ -1,10 +1,12 @@
 import { ButtonBuilder } from "@discordjs/builders";
+import { DiscordAPIError } from "@discordjs/rest";
 import {
 	APIButtonComponentWithCustomId,
 	APIGuild,
 	ButtonStyle,
 	InteractionResponseType,
 	MessageFlags,
+	RESTJSONErrorCodes,
 	Routes,
 } from "discord-api-types/v10";
 import { DISCORD_REST } from "../../../api/discord";
@@ -65,8 +67,12 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 			for (const result of results) {
 				// TODO: show failed role adds/removes
 				// TODO: nicknames
-				if (result.status === "fulfilled") addedRoles.push(result.value);
-				else console.error("role update failed", result.reason);
+				if (result.status === "fulfilled") {
+					addedRoles.push(result.value);
+				} else if (!(result.reason instanceof DiscordAPIError && result.reason.code === RESTJSONErrorCodes.UnknownMember)) {
+					// UnknownMember just means the user isn't in that server
+					console.error("role update failed", result.reason);
+				}
 			}
 
 			const message =
