@@ -47,9 +47,7 @@ function buildSyncResultContainer(addedRoles: AddedRole[]): ContainerBuilder {
 
 	return new ContainerBuilder()
 		.setAccentColor(addedRoles.length > 0 ? 0x2ecc71 : 0x95a5a6)
-		.addTextDisplayComponents(
-			new TextDisplayBuilder().setContent(["## 🔄 Roles Synced", "```diff", ...lines, "```", summary].join("\n")),
-		);
+		.addTextDisplayComponents(new TextDisplayBuilder().setContent(["## 🔄 Roles Synced", "```diff", ...lines, "```", summary].join("\n")));
 }
 
 export const callback: ComponentCallback = async (interaction, ctx) => {
