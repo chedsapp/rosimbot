@@ -69,8 +69,7 @@ export function buildRoleDiffContainer(title: string, changes: RoleChange[], foo
 	}
 	if (lines.length === 0) lines.push("  No role changes");
 
-	const accent =
-		changes.length === 0 ? ACCENT_NONE : changes.every((change) => change.action === "remove") ? ACCENT_REMOVE : ACCENT_ADD;
+	const accent = changes.length === 0 ? ACCENT_NONE : changes.every((change) => change.action === "remove") ? ACCENT_REMOVE : ACCENT_ADD;
 
 	return new ContainerBuilder()
 		.setAccentColor(accent)

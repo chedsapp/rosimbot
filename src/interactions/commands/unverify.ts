@@ -41,7 +41,7 @@ export const callback: CommandCallback = async (interaction, ctx) => {
 				await editOriginal(interaction, {
 					flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
 					...genericErrorCV2("Something went wrong while unverifying. Please try again."),
-				}).catch(() => { });
+				}).catch(() => {});
 			}
 		})(),
 	);
