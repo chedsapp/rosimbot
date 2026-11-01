@@ -18,3 +18,11 @@ export async function getRobloxFromDiscord(discordId: string): Promise<string | 
 
 	return find?.roblox_id ?? null;
 }
+
+export async function unlinkAccount(discordId: string): Promise<string | null> {
+	const removed = await DB.prepare("DELETE FROM links WHERE discord_id = ?1 RETURNING roblox_id")
+		.bind(discordId)
+		.first<{ roblox_id: string }>();
+
+	return removed?.roblox_id ?? null;
+}

@@ -7,12 +7,13 @@ import {
 import * as guildconfig from "./commands/guildconfig";
 import * as ping from "./commands/ping";
 import * as sendbutton from "./commands/sendbutton";
+import * as unverify from "./commands/unverify";
 import * as verify from "./commands/verify";
 import * as whois from "./commands/whois";
 import { CommandParseError, type CommandModule } from "./types";
 import { genericErrorCV2 } from "./utils";
 
-export const commands = [verify, whois, ping, guildconfig, sendbutton] satisfies CommandModule[];
+export const commands = [verify, unverify, whois, ping, guildconfig, sendbutton] satisfies CommandModule[];
 
 export class CommandHandler {
 	private readonly map: Map<string, CommandModule>;
