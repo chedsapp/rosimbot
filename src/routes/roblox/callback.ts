@@ -49,7 +49,8 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 					await updateVerifiedRoles(previous, "remove");
 				}
 				const changes = await updateVerifiedRoles(state_token.userid, "add");
-				const footer = changes.length > 0 ? `${changes.length} role${changes.length === 1 ? "" : "s"} synced!` : "You're already up to date!";
+				const footer =
+					changes.length > 0 ? `${changes.length} role${changes.length === 1 ? "" : "s"} synced!` : "You're already up to date!";
 
 				let dmChannel: APIDMChannel | null;
 				try {
@@ -67,12 +68,14 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 						await DISCORD_REST.post(Routes.channelMessages(dmChannel.id), {
 							body: {
 								flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
-								components: [buildRoleDiffContainer(
-									"✅ Verified", 
-									changes, 
-									footer, 
-									`You have been linked to [${idToken.preferred_username}](https://roblox.com/users/${idToken.sub}/profile).\n## 🔄️ Roles Synced`
-								).toJSON()],
+								components: [
+									buildRoleDiffContainer(
+										"✅ Verified",
+										changes,
+										footer,
+										`You have been linked to [${idToken.preferred_username}](https://roblox.com/users/${idToken.sub}/profile).\n## 🔄️ Roles Synced`,
+									).toJSON(),
+								],
 							},
 						});
 					} catch (e) {

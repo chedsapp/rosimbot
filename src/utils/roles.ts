@@ -73,5 +73,7 @@ export function buildRoleDiffContainer(title: string, changes: RoleChange[], foo
 
 	return new ContainerBuilder()
 		.setAccentColor(accent)
-		.addTextDisplayComponents(new TextDisplayBuilder().setContent([`## ${title}${text ? "\n" + text : ""}`, "```diff", ...lines, "```", `-# ${footer}`].join("\n")));
+		.addTextDisplayComponents(
+			new TextDisplayBuilder().setContent([`## ${title}${text ? "\n" + text : ""}`, "```diff", ...lines, "```", `-# ${footer}`].join("\n")),
+		);
 }
