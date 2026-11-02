@@ -58,9 +58,9 @@ function sanitize(text: string): string {
 
 const ACCENT_ADD = 0x2ecc71;
 const ACCENT_REMOVE = 0xe74c3c;
-const ACCENT_NONE = 0x95a5a6;
+const ACCENT_NONE = undefined;
 
-export function buildRoleDiffContainer(title: string, changes: RoleChange[], footer: string): ContainerBuilder {
+export function buildRoleDiffContainer(title: string, changes: RoleChange[], footer: string, text: string | null = null): ContainerBuilder {
 	const byGuild = Map.groupBy(changes, (change) => change.guildName);
 	const lines: string[] = [];
 	for (const [guildName, guildChanges] of byGuild) {
@@ -73,5 +73,5 @@ export function buildRoleDiffContainer(title: string, changes: RoleChange[], foo
 
 	return new ContainerBuilder()
 		.setAccentColor(accent)
-		.addTextDisplayComponents(new TextDisplayBuilder().setContent([`## ${title}`, "```diff", ...lines, "```", `-# ${footer}`].join("\n")));
+		.addTextDisplayComponents(new TextDisplayBuilder().setContent([`## ${title}${text ? "\n" + text : ""}`, "```diff", ...lines, "```", `-# ${footer}`].join("\n")));
 }

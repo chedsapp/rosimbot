@@ -49,13 +49,13 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 					await updateVerifiedRoles(previous, "remove");
 				}
 				const changes = await updateVerifiedRoles(state_token.userid, "add");
-				const footer = changes.length > 0 ? `${changes.length} role${changes.length === 1 ? "" : "s"} synced` : "You're already up to date";
+				const footer = changes.length > 0 ? `${changes.length} role${changes.length === 1 ? "" : "s"} synced!` : "You're already up to date!";
 
 				let dmChannel: APIDMChannel | null;
 				try {
-					dmChannel = (await DISCORD_REST.post(Routes.userChannels(), { body: { recipientId: state_token.userid } })) as APIDMChannel;
+					dmChannel = (await DISCORD_REST.post(Routes.userChannels(), { body: { recipient_id: state_token.userid } })) as APIDMChannel;
 				} catch (e) {
-					if (e instanceof DiscordAPIError) {
+					if (e instanceof DiscordAPIError && [404, 403].includes(e.status)) {
 						// probably has dms closed, ignore
 						dmChannel = null;
 					} else {
@@ -64,15 +64,20 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 				}
 				if (dmChannel) {
 					try {
-						await DISCORD_REST.post(Routes.channel(dmChannel.id), {
+						await DISCORD_REST.post(Routes.channelMessages(dmChannel.id), {
 							body: {
 								flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
-								components: [buildRoleDiffContainer("🔄 Roles Synced", changes, footer).toJSON()],
+								components: [buildRoleDiffContainer(
+									"✅ Verified", 
+									changes, 
+									footer, 
+									`You have been linked to [${idToken.preferred_username}](https://roblox.com/users/${idToken.sub}/profile).\n## 🔄️ Roles Synced`
+								).toJSON()],
 							},
 						});
 					} catch (e) {
 						// probably has dms closed, ignore
-						if (!(e instanceof DiscordAPIError)) {
+						if (!(e instanceof DiscordAPIError && [404, 403].includes(e.status))) {
 							throw e;
 						}
 					}

@@ -31,7 +31,7 @@ export const callback: ComponentCallback = async (interaction, ctx) => {
 			}
 
 			const changes = await updateVerifiedRoles(invokerId, "add");
-			const footer = changes.length > 0 ? `${changes.length} role${changes.length === 1 ? "" : "s"} synced` : "You're already up to date";
+			const footer = changes.length > 0 ? `${changes.length} role${changes.length === 1 ? "" : "s"} synced!` : "You're already up to date!";
 
 			await editOriginal(interaction, {
 				flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
