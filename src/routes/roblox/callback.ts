@@ -1,11 +1,12 @@
-import { Routes } from "discord-api-types/v10";
+import { DiscordAPIError } from "@discordjs/rest";
+import { APIDMChannel, MessageFlags, Routes } from "discord-api-types/v10";
 import { DISCORD_REST } from "../../api/discord";
 import { getRobloxUserThumbnail } from "../../api/roblox";
-import { getAllGuildConfigs } from "../../db/guild";
 import { linkAccount } from "../../db/linking";
 import page from "../../liquid";
 import { ERRORS, OAuthError } from "../../oauth/constants";
 import { ObtainTokenResponse, StateToken, exchangeCodeForToken, verifyRobloxJWT, verifyStateJWT } from "../../oauth/roblox";
+import { buildRoleDiffContainer, updateVerifiedRoles } from "../../utils/roles";
 
 export async function handleRobloxCallback(request: Request, ctx: ExecutionContext) {
 	const url = new URL(request.url);
@@ -44,23 +45,37 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 
 		ctx.waitUntil(
 			(async () => {
-				const allGuildConfigs = await getAllGuildConfigs();
-				const requests: Promise<unknown>[] = [];
-
-				for (const [guildId, config] of allGuildConfigs) {
-					const roleId = config.verifiedRoleId;
-					if (roleId == null) {
-						continue;
-					}
-					if (previous) {
-						requests.push(DISCORD_REST.delete(Routes.guildMemberRole(guildId, previous, roleId)));
-					}
-					requests.push(DISCORD_REST.put(Routes.guildMemberRole(guildId, state_token.userid, roleId)));
+				if (previous) {
+					await updateVerifiedRoles(previous, "remove");
 				}
+				const changes = await updateVerifiedRoles(state_token.userid, "add");
+				const footer = changes.length > 0 ? `${changes.length} role${changes.length === 1 ? "" : "s"} synced` : "You're already up to date";
 
-				const results = await Promise.allSettled(requests);
-				for (const result of results) {
-					if (result.status === "rejected") console.error("role update failed", result.reason);
+				let dmChannel: APIDMChannel | null;
+				try {
+					dmChannel = (await DISCORD_REST.post(Routes.userChannels(), { body: { recipientId: state_token.userid } })) as APIDMChannel;
+				} catch (e) {
+					if (e instanceof DiscordAPIError) {
+						// probably has dms closed, ignore
+						dmChannel = null;
+					} else {
+						throw e;
+					}
+				}
+				if (dmChannel) {
+					try {
+						await DISCORD_REST.post(Routes.channel(dmChannel.id), {
+							body: {
+								flags: MessageFlags.Ephemeral | MessageFlags.IsComponentsV2,
+								components: [buildRoleDiffContainer("🔄 Roles Synced", changes, footer).toJSON()],
+							},
+						});
+					} catch (e) {
+						// probably has dms closed, ignore
+						if (!(e instanceof DiscordAPIError)) {
+							throw e;
+						}
+					}
 				}
 			})(),
 		);
