@@ -73,7 +73,7 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 										"✅ Verified",
 										changes,
 										footer,
-										`You have been linked to [${idToken.preferred_username}](https://roblox.com/users/${idToken.sub}/profile).\n## 🔄️ Roles Synced`,
+										`You have been linked to [${idToken.preferred_username}](https://roblox.com/users/${idToken.sub}/profile).\n## 🔁 Roles Synced`,
 									).toJSON(),
 								],
 							},
