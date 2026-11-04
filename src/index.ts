@@ -12,6 +12,7 @@ router
 	.post("/interaction", handleInteraction)
 	.get("/roblox/callback", handleRobloxCallback)
 	.post("/gateway", handleGatewayEvent)
+	.get("/terms", (_, ctx) => page("terms", ctx, 200))
 	.get("/privacy", (_, ctx) => page("privacy", ctx, 200))
 	.all("*", () => new Response("Not Found", { status: 404 }));
 

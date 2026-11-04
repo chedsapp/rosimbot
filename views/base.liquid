@@ -14,6 +14,7 @@
 				--bg: #141414;
 				--fg: #e6e8ee;
 				--muted: #bebebe;
+                --link: #ffd1dc;
 				--ok: #3fb950;
 				--err: #f85149;
 				--accent: #4c8dff;
@@ -23,6 +24,7 @@
 					--bg: #f4f5f7;
 					--fg: #1b1f24;
 					--muted: #5b6472;
+                    --link: #9932cc
 				}
 			}
 			* {
@@ -31,23 +33,27 @@
 			body {
 				background: var(--bg);
 				color: var(--fg);
-                padding: 0 5rem;
+				padding: 0 5rem;
 				font:
 					16px/1.5 system-ui,
 					sans-serif;
 			}
-            th, td {
-                border: 1px solid var(--fg);
-                border-collapse: collapse;
-                padding: 0 1em;
-            }
-            table {
-                border: 2px solid var(--fg);
-                border-collapse: collapse
+			th,
+			td {
+				border: 1px solid var(--fg);
+				border-collapse: collapse;
+				padding: 0 1em;
+			}
+			table {
+				border: 2px solid var(--fg);
+				border-collapse: collapse;
+			}
+            a {
+                color: var(--link);
             }
 		</style>
 	</head>
 	<body>
-        {% block content %}wtf theres nothing here{% endblock %}
+		{% block content %}wtf theres nothing here{% endblock %}
 	</body>
 </html>

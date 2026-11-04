@@ -5,6 +5,7 @@ import layoutView from "../views/verify/layout.liquid";
 import successView from "../views/verify/success.liquid";
 import baseView from "../views/base.liquid";
 import privacyView from "../views/privacy.liquid";
+import termsView from "../views/terms.liquid";
 
 const engine = new Liquid({
 	templates: {
@@ -13,6 +14,7 @@ const engine = new Liquid({
 		verify_success: successView,
 		base: baseView,
 		privacy: privacyView,
+		terms: termsView,
 	},
 	cache: true,
 	outputEscape: "escape",
