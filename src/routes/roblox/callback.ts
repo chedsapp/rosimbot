@@ -95,7 +95,7 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 			console.error("headshot fetch failed", err);
 		}
 
-		return page("success", { title: "RoSim Verification", kind: "ok", user: idToken.preferred_username, headshot });
+		return page("verify_success", { title: "RoSim Verification", kind: "ok", user: idToken.preferred_username, headshot });
 	} catch (e) {
 		const known = e instanceof OAuthError;
 		if (!known) console.error("oauth callback failed", e);
@@ -103,7 +103,7 @@ export async function handleRobloxCallback(request: Request, ctx: ExecutionConte
 		const code = known && ERRORS[e.code] ? e.code : "internal_error";
 		const [heading, message] = ERRORS[code];
 		return page(
-			"error",
+			"verify_error",
 			{
 				title: "RoSim Verification",
 				kind: "err",

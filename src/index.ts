@@ -2,6 +2,7 @@ import { IttyRouter } from "itty-router";
 import { handleGatewayEvent } from "./routes/gateway";
 import handleInteraction from "./routes/interaction";
 import { handleRobloxCallback } from "./routes/roblox/callback";
+import page from "./liquid";
 
 const router = IttyRouter();
 
@@ -11,7 +12,7 @@ router
 	.post("/interaction", handleInteraction)
 	.get("/roblox/callback", handleRobloxCallback)
 	.post("/gateway", handleGatewayEvent)
-	// .get("/roblox-avatar/:userid", async ({params}) => {return new Response(await getRobloxUserThumbnail(params.userid, {}), {status: 200})})
+	.get("/privacy", (_, ctx) => page("privacy", ctx, 200))
 	.all("*", () => new Response("Not Found", { status: 404 }));
 
 export default {

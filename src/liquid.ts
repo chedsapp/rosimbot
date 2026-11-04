@@ -1,14 +1,18 @@
 import { Liquid } from "liquidjs";
 
-import errorView from "../views/error.liquid";
-import layoutView from "../views/layout.liquid";
-import successView from "../views/success.liquid";
+import errorView from "../views/verify/error.liquid";
+import layoutView from "../views/verify/layout.liquid";
+import successView from "../views/verify/success.liquid";
+import baseView from "../views/base.liquid";
+import privacyView from "../views/privacy.liquid";
 
 const engine = new Liquid({
 	templates: {
-		layout: layoutView,
-		error: errorView,
-		success: successView,
+		verify_layout: layoutView,
+		verify_error: errorView,
+		verify_success: successView,
+		base: baseView,
+		privacy: privacyView,
 	},
 	cache: true,
 	outputEscape: "escape",

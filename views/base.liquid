@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link
+			rel="icon"
+			type="image/webp"
+			href="https://images-ext-1.discordapp.net/external/U3Vh_9UKgJunJEBmgnDh26pKbAbjN0dDQqw7Mn_b0tg/%3Fsize%3D1024/https/cdn.discordapp.com/icons/1393308664151932938/7ab93dfc9958cbe2bd620d0f46280a33.webp?format=webp&width=548&height=548"
+		>
+		<title>{{ title }}</title>
+		<style>
+			:root {
+				--bg: #141414;
+				--fg: #e6e8ee;
+				--muted: #bebebe;
+				--ok: #3fb950;
+				--err: #f85149;
+				--accent: #4c8dff;
+			}
+			@media (prefers-color-scheme: light) {
+				:root {
+					--bg: #f4f5f7;
+					--fg: #1b1f24;
+					--muted: #5b6472;
+				}
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				background: var(--bg);
+				color: var(--fg);
+                padding: 0 5rem;
+				font:
+					16px/1.5 system-ui,
+					sans-serif;
+			}
+            th, td {
+                border: 1px solid var(--fg);
+                border-collapse: collapse;
+                padding: 0 1em;
+            }
+            table {
+                border: 2px solid var(--fg);
+                border-collapse: collapse
+            }
+		</style>
+	</head>
+	<body>
+        {% block content %}wtf theres nothing here{% endblock %}
+	</body>
+</html>
