@@ -1,6 +1,7 @@
 import { IttyRouter } from "itty-router";
 import { env } from "cloudflare:workers";
 import { timingSafeEqual, createHash } from "node:crypto";
+import { handleGetUserByDiscordId, handleGetUserById } from "./user";
 
 export const API_ROUTER = IttyRouter({ base: "/api" });
 
@@ -26,4 +27,6 @@ function authMiddleware(request: Request, _: ExecutionContext) {
 
 API_ROUTER.all("*", authMiddleware)
 	.get("/", () => new Response(JSON.stringify({ message: "OK" })))
+	.get("/users/discord/:id", handleGetUserByDiscordId)
+	.get("/users/:id", handleGetUserById)
 	.all("*", () => new Response(JSON.stringify({ message: "Not Found" }), { status: 404 }));
