@@ -19,7 +19,7 @@
 		"@types/node": "^26.6.6",
 		"tsx": "^4.23.15",
 		"typescript": "^7.0.2",
-		"vitest": "~5.0.3",
+		"vitest": "~5.1.0",
 		"wrangler": "^4.156.0"
 	},
 	"dependencies": {
@@ -30,7 +30,7 @@
 		"discord-api-types": "^0.38.57",
 		"discord-interactions": "^4.4.0",
 		"itty-router": "^5.0.24",
-		"jose": "^6.2.14",
+		"jose": "^6.2.15",
 		"liquidjs": "^10.30.1",
 		"prettier-plugin-organize-imports": "^4.3.0"
 	},
