@@ -1,4 +1,4 @@
-import { IttyRouter, error } from "itty-router";
+import { IttyRouter } from "itty-router";
 import { env } from "cloudflare:workers";
 import { timingSafeEqual, createHash } from "node:crypto";
 
