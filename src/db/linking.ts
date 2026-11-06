@@ -26,3 +26,21 @@ export async function unlinkAccount(discordId: string): Promise<string | null> {
 
 	return removed?.roblox_id ?? null;
 }
+
+export interface UserInfo {
+	roblox_id: string;
+	discord_id: string;
+	verified_at: bigint;
+}
+
+export async function getUser(robloxId: string): Promise<UserInfo | null> {
+	const row = await DB.prepare("SELECT * FROM links WHERE roblox_id = ?1").bind(robloxId).first();
+
+	return (row as unknown as UserInfo) ?? null;
+}
+
+export async function getUserByDiscord(discordId: string): Promise<UserInfo | null> {
+	const row = await DB.prepare("SELECT * FROM links WHERE discord_id = ?1").bind(discordId).first();
+
+	return (row as unknown as UserInfo) ?? null;
+}

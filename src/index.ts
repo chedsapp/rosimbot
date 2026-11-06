@@ -3,11 +3,13 @@ import { handleGatewayEvent } from "./routes/gateway";
 import handleInteraction from "./routes/interaction";
 import { handleRobloxCallback } from "./routes/roblox/callback";
 import page from "./liquid";
+import { API_ROUTER } from "./routes/api";
 
 const router = IttyRouter();
 
 router
 	.get("/", () => new Response("Ok"))
+	.all("/api/*", API_ROUTER.fetch)
 	// .post("/", handleInteraction) // deprocketet
 	.post("/interaction", handleInteraction)
 	.get("/roblox/callback", handleRobloxCallback)
