@@ -27,7 +27,7 @@
 		"@discordjs/rest": "^2.6.3",
 		"@shopify/prettier-plugin-liquid": "^1.11.3",
 		"@types/jsonwebtoken": "^9.0.10",
-		"discord-api-types": "^0.38.57",
+		"discord-api-types": "^0.38.58",
 		"discord-interactions": "^4.4.0",
 		"itty-router": "^5.0.24",
 		"jose": "^6.2.15",
