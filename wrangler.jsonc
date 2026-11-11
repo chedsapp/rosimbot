@@ -51,6 +51,7 @@
 			"ROBLOX_CLIENT_SECRET",
 			"ROBLOX_REDIRECT_URI",
 			"ROBLOX_API_KEY",
+			"ROSIM_API_KEY",
 		],
 	},
 	/**
